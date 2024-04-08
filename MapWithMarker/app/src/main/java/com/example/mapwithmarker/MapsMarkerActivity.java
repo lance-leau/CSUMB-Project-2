@@ -4,10 +4,10 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import com.example.mapwithmarker.Utils.*;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.mapwithmarker.Utils.*;
 import com.example.mapwithmarker.databinding.ActivityMapsBinding;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -24,6 +24,8 @@ import com.google.android.gms.maps.model.LatLng;
 public class MapsMarkerActivity extends AppCompatActivity
         implements OnMapReadyCallback {
 
+    ActivityMapsBinding binding;
+
     boolean menuIsOpen = false;
     static final int MENU_CLOSED_SIZE = 100;
     static final int MENU_OPENED_SIZE = 1500;
@@ -32,11 +34,13 @@ public class MapsMarkerActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        binding = ActivityMapsBinding.inflate(getLayoutInflater());
+
         // Retrieve the content view that renders the map.
-        setContentView(R.layout.activity_maps);
+        setContentView(binding.getRoot());
 
         // set the title bar size
-        View scrollView = findViewById(R.id.steps_ScrollView);
+        View scrollView = binding.stepsScrollView;
         ViewGroup.LayoutParams layoutParams = scrollView.getLayoutParams();
         layoutParams.height = 250; // Change this to your desired height
         scrollView.setLayoutParams(layoutParams);
