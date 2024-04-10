@@ -1,8 +1,10 @@
 package com.example.mapwithmarker;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -15,6 +17,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 
 
 /**
@@ -23,11 +26,12 @@ import com.google.android.gms.maps.model.LatLng;
 // [START maps_marker_on_map_ready]
 public class MapsMarkerActivity extends AppCompatActivity
         implements OnMapReadyCallback {
+    GoogleMap GM;
 
     ActivityMapsBinding binding;
 
     boolean menuIsOpen = false;
-    static final int MENU_CLOSED_SIZE = 100;
+    static final int MENU_CLOSED_SIZE = 250;
     static final int MENU_OPENED_SIZE = 1500;
 
     @Override
@@ -46,43 +50,79 @@ public class MapsMarkerActivity extends AppCompatActivity
         scrollView.setLayoutParams(layoutParams);
         scrollView.requestLayout();
 
-        TextView activityTitle = findViewById(R.id.textView);
-        activityTitle.setOnClickListener(new View.OnClickListener() {
+
+        // Get the SupportMapFragment and request notification when the map is ready to be used.
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
+        mapFragment.getMapAsync(this);
+
+        binding.PlanTripTitle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                binding.stepsScrollView.smoothScrollTo(0, 0);
                 if (menuIsOpen){
-                    Animations.animateViewHeight(scrollView, 1500, 250, 1);
+                    Animations.animateViewHeight(scrollView, MENU_OPENED_SIZE, MENU_CLOSED_SIZE, 1);
                     menuIsOpen = false;
                 } else {
-                    Animations.animateViewHeight(scrollView, 250, 1500, 1);
+                    Animations.animateViewHeight(scrollView, MENU_CLOSED_SIZE, MENU_OPENED_SIZE, 1);
                     menuIsOpen = true;
                 }
             }
         });
 
+        binding.AddNewDestinationButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // get the address
+                String address = binding.AddNewDestinationEditText.getText().toString().toUpperCase();
 
+                // create the new textView
+                TextView textView = new TextView(MapsMarkerActivity.this);
+                textView.setText(address);
+                LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.MATCH_PARENT,
+                        LinearLayout.LayoutParams.WRAP_CONTENT
+                );
+                textView.setTextSize(30);
+                textView.setPadding(50, 16, 16, 16);
+                textView.setLayoutParams(layoutParams);
+                binding.stepsListLinearLayout.addView(textView, binding.stepsListLinearLayout.getChildCount()-1);
 
-        // Get the SupportMapFragment and request notification when the map is ready to be used.
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.map);
-        mapFragment.getMapAsync(this);
+                // create the new marker
+                LatLng coordinates = com.examples.Utils.CityCoordinatesUtils.getCoordinates(MapsMarkerActivity.this, address);
+                GM.addMarker(new MarkerOptions()
+                        .position(coordinates)
+                        .title(address));
+
+                // clear the text
+                binding.AddNewDestinationEditText.setText("");
+
+                // close the menu
+                if (menuIsOpen) {
+                    Animations.animateViewHeight(scrollView, MENU_OPENED_SIZE, MENU_CLOSED_SIZE, 0);
+                    binding.stepsScrollView.smoothScrollTo(0, 0);
+                    menuIsOpen = false;
+                }
+
+                // center on new marker
+                GM.moveCamera(CameraUpdateFactory.newLatLng(coordinates));
+            }
+        });
     }
     @Override
     public void onMapReady(GoogleMap googleMap) {
+        GM = googleMap;
         LatLng france = new LatLng(46.2000, 1.8000);
         // [START_EXCLUDE silent]
 
         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(france, (float)(5.3)));
         // [END_EXCLUDE]
     }
-    // [END maps_marker_on_map_ready_add_marker]
 }
-// [END maps_marker_on_map_ready]
 
 
 // TODO HOW TO ADD A MARKER :
 /*
-LatLng sydney = new LatLng(-33.852, 151.211);
+    LatLng sydney = new LatLng(-33.852, 151.211);
 googleMap.addMarker(new MarkerOptions()
     .position(sydney)
     .title("Marker in Sydney"));
