@@ -4,68 +4,76 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="com.example.mapwithmarker.MapsMarkerActivity">
-    
 
-    <ScrollView
-        android:id="@+id/steps_ScrollView"
+    <LinearLayout
+        android:layout_height="250dp"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#1C788D">
+        android:orientation="vertical"
+        android:id="@+id/daddy_linearLayout">
 
-        <LinearLayout
+        <TextView
+            android:id="@+id/PlanTripTitle"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:id="@+id/steps_list_linearLayout">
+            android:layout_height="100dp"
+            android:text="@string/trip_planner_title"
+            android:background="#1C788D"
+            android:textSize="58sp"
+            android:gravity="center"
+            android:layout_gravity="center_horizontal"/>
 
-            <!-- Title TextView -->
-            <TextView
-                android:id="@+id/PlanTripTitle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/trip_planner_title"
-                android:textSize="58sp"
-                android:gravity="center"
-                android:layout_marginTop="8dp"
-                android:layout_gravity="center_horizontal"/>
+        <ScrollView
+            android:id="@+id/steps_ScrollView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#1C788D">
 
-            <!-- TextEdit and Button at the end of the ScrollView -->
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="100dp"
-                android:orientation="horizontal">
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:id="@+id/steps_list_linearLayout">
+
+                <!-- TextEdit and Button at the end of the ScrollView -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:orientation="horizontal">
 
 
-                <EditText
-                    android:id="@+id/AddNewDestination_editText"
-                    android:layout_width="270dp"
-                    android:layout_height="40dp"
-                    android:hint="Add new destination"
-                    android:layout_marginTop="25dp"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginEnd="10dp"
-                    android:inputType="textShortMessage"/>
+                    <EditText
+                        android:id="@+id/AddNewDestination_editText"
+                        android:layout_width="270dp"
+                        android:layout_height="40dp"
+                        android:hint="Add new destination"
+                        android:layout_marginTop="35dp"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginEnd="10dp"
+                        android:inputType="textShortMessage"
+                        android:autofillHints="username"
+                        android:backgroundTint="#000000"/>
 
-                <Button
-                    android:id="@+id/AddNewDestination_button"
-                    android:layout_marginTop="20dp"
-                    android:layout_width="90dp"
-                    android:layout_height="50dp"
-                    android:text="Add" />
+                    <Button
+                        android:id="@+id/AddNewDestination_button"
+                        android:layout_marginTop="20dp"
+                        android:layout_width="90dp"
+                        android:layout_height="50dp"
+                        android:text="Add" />
 
+
+                </LinearLayout>
 
             </LinearLayout>
 
-        </LinearLayout>
+        </ScrollView>
 
-    </ScrollView>
+    </LinearLayout>
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/map"
         android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/steps_ScrollView"
+        android:layout_below="@+id/daddy_linearLayout"
         tools:context="com.example.mapwithmarker.MapsMarkerActivity"
         tools:layout="@layout/activity_maps" />
 

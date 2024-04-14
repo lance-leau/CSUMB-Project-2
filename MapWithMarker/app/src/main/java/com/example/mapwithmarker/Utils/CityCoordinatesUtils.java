@@ -1,4 +1,4 @@
-package com.examples.Utils;
+package com.example.mapwithmarker.Utils;
 
 import android.content.Context;
 import android.location.Address;
@@ -26,7 +26,7 @@ public class CityCoordinatesUtils {
                 coordinates = new LatLng(latitude, longitude);
             }
         } catch (IOException e) {
-            Log.e("CityCoordinatesUtils", "Error obtaining coordinates", e);
+            coordinates = new LatLng(0, 0);
         }
 
         return coordinates;

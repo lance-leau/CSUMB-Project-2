@@ -19,6 +19,9 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.io.IOException;
+import java.util.ArrayList;
+
 
 /**
  * An activity that displays a Google map with a marker (pin) to indicate a particular location.
@@ -26,6 +29,8 @@ import com.google.android.gms.maps.model.MarkerOptions;
 // [START maps_marker_on_map_ready]
 public class MapsMarkerActivity extends AppCompatActivity
         implements OnMapReadyCallback {
+
+    ArrayList<LatLng> destList;
     GoogleMap GM;
 
     ActivityMapsBinding binding;
@@ -44,9 +49,9 @@ public class MapsMarkerActivity extends AppCompatActivity
         setContentView(binding.getRoot());
 
         // set the title bar size
-        View scrollView = binding.stepsScrollView;
+        View scrollView = binding.daddyLinearLayout;
         ViewGroup.LayoutParams layoutParams = scrollView.getLayoutParams();
-        layoutParams.height = 250; // Change this to your desired height
+        layoutParams.height = MENU_CLOSED_SIZE; // Change this to your desired height
         scrollView.setLayoutParams(layoutParams);
         scrollView.requestLayout();
 
@@ -88,10 +93,14 @@ public class MapsMarkerActivity extends AppCompatActivity
                 binding.stepsListLinearLayout.addView(textView, binding.stepsListLinearLayout.getChildCount()-1);
 
                 // create the new marker
-                LatLng coordinates = com.examples.Utils.CityCoordinatesUtils.getCoordinates(MapsMarkerActivity.this, address);
-                GM.addMarker(new MarkerOptions()
-                        .position(coordinates)
-                        .title(address));
+                LatLng coordinates = CityCoordinatesUtils.getCoordinates(MapsMarkerActivity.this, address);
+                if (coordinates == null){
+                    coordinates = new LatLng(0, 0);
+                } else {
+                    GM.addMarker(new MarkerOptions()
+                            .position(coordinates)
+                            .title(address));
+                }
 
                 // clear the text
                 binding.AddNewDestinationEditText.setText("");
