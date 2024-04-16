@@ -35,16 +35,30 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="${MAPS_API_KEY}" />
 
-        <activity
+         <activity
             android:name=".MapsMarkerActivity"
             android:label="@string/title_activity_maps"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
+               <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
             </intent-filter>
         </activity>
+
+        <activity android:name=".ActivityRegister"
+            android:exported="true">
+
+            <intent-filter>
+                <category android:name="android.intent.category.LAUNCHER"/>
+                <action android:name="android.intent.action.MAIN"/>
+            </intent-filter>
+
+        </activity>
+        <activity android:name=".ActivityLogin"/>
+        <activity android:name=".Landing"/>
+
+
     </application>
 
 </manifest>
