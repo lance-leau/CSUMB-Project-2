@@ -6,12 +6,12 @@
     tools:context=".Landing">
 
     <!-- Background Color for the Top Section -->
-    <View
-        android:id="@+id/topBackground"
-        android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:background="@color/colorPrimary"
-        android:layout_alignParentTop="true" />
+<!--    <View-->
+<!--        android:id="@+id/topBackground"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="100dp"-->
+<!--        android:background="@color/colorPrimary"-->
+<!--        android:layout_alignParentTop="true" />-->
 
     <!-- Plus Button -->
     <Button
@@ -24,8 +24,8 @@
         android:background="@color/colorPrimaryDark"
         android:layout_alignParentStart="true"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_below="@id/topBackground" />
+        android:layout_marginTop="16dp"/>
+<!--        android:layout_below="@id/topBackground" />-->
 
     <!-- Sign Out Button -->
     <Button
@@ -37,8 +37,8 @@
         android:background="@color/colorPrimaryDark"
         android:layout_alignParentEnd="true"
         android:layout_marginEnd="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_below="@id/topBackground" />
+        android:layout_marginTop="16dp"/>
+<!--        android:layout_below="@id/topBackground" -->
 
     <!-- Admin Button -->
     <Button
@@ -50,21 +50,22 @@
         android:background="@color/colorPrimaryDark"
         android:layout_alignParentEnd="true"
         android:layout_marginEnd="32dp"
-        android:layout_marginTop="-70dp"
-        android:layout_below="@id/topBackground" />
+        android:layout_marginTop="-70dp"/>
+<!--        android:layout_below="@id/topBackground" -->
 
     <!-- Text "Projects" at the Middle -->
     <TextView
         android:id="@+id/projectsText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/topBackground"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="16dp"
         android:text="Projects"
         android:textColor="@android:color/holo_blue_dark"
         android:textSize="24sp"
         android:textStyle="bold" />
+    <!--        android:layout_below="@id/topBackground"-->
+
 
     <!-- Add your content below this line -->
 
