@@ -30,7 +30,7 @@ public class ActivityRegister extends AppCompatActivity {
         btnGoToLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(ActivityRegister.this, ActivityLogin.class);//TODO
+                Intent intent = new Intent(ActivityRegister.this, ActivityLogin.class);
                 startActivity(intent);
             }
         });
@@ -48,11 +48,12 @@ public class ActivityRegister extends AppCompatActivity {
                 }else {
                     if(pwd.equals(rePwd)){
 
-                        if(dbHelper.checkUsername(user)){
+                        if(dbHelper.checkUsername(user) || dbHelper.isAdmin(user, pwd)){//changes
                             Toast.makeText(ActivityRegister.this, "User Already Exists", Toast.LENGTH_LONG).show();
                             return;
                         }
                         //Proceed with the register
+
                         boolean success=  dbHelper.insertData(user, pwd);
                         if(success){
                             Toast.makeText(ActivityRegister.this, "User Registered Successfully", Toast.LENGTH_LONG).show();

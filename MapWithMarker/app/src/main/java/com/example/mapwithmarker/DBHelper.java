@@ -20,6 +20,11 @@ public class DBHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         db.execSQL("create table users(username TEXT primary key, password TEXT)");
 
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("username", "admin");
+        contentValues.put("password", "123");
+        db.insert("users", null, contentValues);
+
     }
 
     @Override
@@ -48,4 +53,16 @@ public class DBHelper extends SQLiteOpenHelper {
         Cursor cursor =  myDB.rawQuery("select *  from users where username = ? and password = ? ", new String[]{username, pwd});
         return cursor.getCount() > 0;
     }
+
+    public boolean isAdmin(String username, String pwd){
+        return username.equals("admin") && pwd.equals("123");
+    }
+
+    public boolean isAdminUser() {
+        // Check if the logged-in user is an admin using the isAdmin method from DBHelper
+        String username = "admin"; // Assuming this is the admin username
+        String password = "123"; // Assuming this is the admin password
+        return isAdmin(username, password);
+    }
+
 }

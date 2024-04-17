@@ -24,4 +24,7 @@
     <string name="register">Register</string>
     <string name="go_to_login">Go to Login</string>
     <string name="login">Login</string>
+    <string name="plus_button">+</string>
+    <string name="sign_out">Sign Out</string>
+    <string name="admin">Admin</string>
 </resources>
