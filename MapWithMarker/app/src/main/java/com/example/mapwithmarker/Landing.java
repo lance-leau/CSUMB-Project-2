@@ -45,7 +45,7 @@ public class Landing extends AppCompatActivity {
         signOut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Landing.this, ActivityRegister.class);
+                Intent intent = new Intent(Landing.this, ActivityStartUp.class);
                 startActivity(intent);
             }
         });

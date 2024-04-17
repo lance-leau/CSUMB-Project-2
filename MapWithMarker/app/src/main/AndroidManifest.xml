@@ -46,7 +46,7 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".ActivityRegister"
+        <activity android:name=".ActivityStartUp"
             android:exported="true">
 
             <intent-filter>
@@ -57,6 +57,7 @@
         </activity>
         <activity android:name=".ActivityLogin"/>
         <activity android:name=".Landing"/>
+        <activity android:name=".ActivityRegister"/>
 
 
     </application>

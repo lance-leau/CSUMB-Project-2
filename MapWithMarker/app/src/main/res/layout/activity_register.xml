@@ -1,45 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/color_blur"
+    android:gravity="center"
     android:orientation="vertical"
-    android:padding="16dp"
-    android:gravity="center">
+    android:padding="16dp">
+
 
     <EditText
         android:id="@+id/etUsername"
         android:layout_width="match_parent"
-        android:hint="@string/username"
-        android:layout_marginTop="16dp"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:hint="@string/username" />
 
     <EditText
         android:id="@+id/etPassword"
         android:layout_width="match_parent"
-        android:hint= "@string/password"
+        android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:layout_height="wrap_content"/>
+        android:hint="@string/password" />
 
 
     <EditText
         android:id="@+id/etRePassword"
         android:layout_width="match_parent"
-        android:hint= "@string/retype_password"
+        android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:layout_height="wrap_content" />
+        android:hint="@string/retype_password" />
 
     <Button
         android:id="@+id/btnRegister"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="46dp"
-        android:text = "@string/register"/>
+        android:width="14dp"
+        android:height="32dp"
+        android:background="@drawable/login_button"
+        android:text="@string/register" />
 
     <Button
         android:id="@+id/btnLogIn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text = "@string/go_to_login"/>
+        android:background="@drawable/login_button"
+        android:text="@string/go_to_login" />
+
 
 </LinearLayout>
