@@ -22,7 +22,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
         ContentValues contentValues = new ContentValues();
         contentValues.put("username", "admin");
-        contentValues.put("password", "123");
+        contentValues.put("password", "admin");
         db.insert("users", null, contentValues);
 
     }
@@ -55,14 +55,9 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 
     public boolean isAdmin(String username, String pwd){
-        return username.equals("admin") && pwd.equals("123");
+        return username.equals("admin") && pwd.equals("admin");
     }
 
-    public boolean isAdminUser() {
-        // Check if the logged-in user is an admin using the isAdmin method from DBHelper
-        String username = "admin"; // Assuming this is the admin username
-        String password = "123"; // Assuming this is the admin password
-        return isAdmin(username, password);
-    }
+
 
 }

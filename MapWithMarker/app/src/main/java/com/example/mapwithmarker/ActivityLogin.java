@@ -3,6 +3,7 @@ package com.example.mapwithmarker;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -16,6 +17,8 @@ import androidx.core.app.TaskStackBuilder;
 
 
 public class ActivityLogin  extends AppCompatActivity {
+
+    private static final String IS_USER_ADMIN = "IS_USER_ADMIN";
 
     EditText etUser, etPwd;
     Button btnLogin;
@@ -33,9 +36,12 @@ public class ActivityLogin  extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 boolean isLoggedId = dbHelper.checkUser(etUser.getText().toString(), etPwd.getText().toString());
-
-                if(isLoggedId){
+                boolean isAdmin = dbHelper.isAdmin(etUser.getText().toString(), etPwd.getText().toString());
+                if(isLoggedId || isAdmin){
+                    boolean isUserAdmin = dbHelper.isAdmin(etUser.getText().toString(), etPwd.getText().toString());
                     Intent intent = new Intent(ActivityLogin.this, Landing.class);
+                    Log.d("Bruh", isUserAdmin ? "true" : "false");
+                    intent.putExtra(IS_USER_ADMIN, isUserAdmin);
                     startActivity(intent);
                 }else{
                     Toast.makeText(ActivityLogin.this, "Login Failed", Toast.LENGTH_SHORT).show();
