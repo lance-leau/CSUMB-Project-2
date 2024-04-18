@@ -2,6 +2,7 @@ package com.example.mapwithmarker;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -38,11 +39,15 @@ public class ActivityLogin  extends AppCompatActivity {
                 boolean isLoggedId = dbHelper.checkUser(etUser.getText().toString(), etPwd.getText().toString());
                 boolean isAdmin = dbHelper.isAdmin(etUser.getText().toString(), etPwd.getText().toString());
                 if(isLoggedId || isAdmin){
+                    SharedPreferences preferences = getSharedPreferences("loginPrefs", MODE_PRIVATE);
+                    SharedPreferences.Editor editor = preferences.edit();
+                    editor.putBoolean("isLoggedIn", true);
+                    editor.apply();
                     boolean isUserAdmin = dbHelper.isAdmin(etUser.getText().toString(), etPwd.getText().toString());
                     Intent intent = new Intent(ActivityLogin.this, Landing.class);
-                    Log.d("Bruh", isUserAdmin ? "true" : "false");
                     intent.putExtra(IS_USER_ADMIN, isUserAdmin);
                     startActivity(intent);
+                    finish();
                 }else{
                     Toast.makeText(ActivityLogin.this, "Login Failed", Toast.LENGTH_SHORT).show();
                 }
