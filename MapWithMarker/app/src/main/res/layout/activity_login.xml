@@ -4,28 +4,38 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="16dp"
+    android:background="@drawable/login"
     android:gravity="center">
 
     <EditText
         android:id="@+id/etUsername"
         android:layout_width="match_parent"
         android:hint="@string/username"
+        android:foregroundTint="#ffffff"
+        android:backgroundTint="#ffffff"
         android:layout_marginTop="16dp"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:textColorHint="#ffffff"
+        android:textColor="#ffffff"/>
 
     <EditText
         android:id="@+id/etPassword"
+        android:inputType="textPassword"
         android:layout_width="match_parent"
         android:hint="@string/password"
         android:layout_marginTop="16dp"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:backgroundTint="#ffffff"
+        android:textColorHint="#ffffff"
+        android:textColor="#ffffff"/>
 
     <Button
         android:id="@+id/btnLogin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="36dp"
-        android:text = "@string/login"/>
+        android:text = "@string/login"
+        android:background="@drawable/login_button"/>
 
 
 </LinearLayout>

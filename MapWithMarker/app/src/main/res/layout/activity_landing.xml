@@ -5,13 +5,6 @@
     android:layout_height="match_parent"
     tools:context=".Landing">
 
-    <!-- Background Color for the Top Section -->
-<!--    <View-->
-<!--        android:id="@+id/topBackground"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="100dp"-->
-<!--        android:background="@color/colorPrimary"-->
-<!--        android:layout_alignParentTop="true" />-->
 
     <!-- Plus Button -->
     <Button
@@ -43,14 +36,19 @@
     <!-- Admin Button -->
     <Button
         android:id="@+id/admin_button"
-        android:layout_width="wrap_content"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
+        android:layout_below="@id/signOutButton"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginBottom="32dp"
+        android:background="@color/colorPrimaryDark"
+        android:gravity="center"
         android:text="@string/admin"
         android:textColor="@android:color/holo_red_dark"
-        android:background="@color/colorPrimaryDark"
-        android:layout_alignParentEnd="true"
-        android:layout_marginEnd="32dp"
-        android:layout_marginTop="-70dp"/>
+        android:textSize="25sp" />
 <!--        android:layout_below="@id/topBackground" -->
 
     <!-- Text "Projects" at the Middle -->

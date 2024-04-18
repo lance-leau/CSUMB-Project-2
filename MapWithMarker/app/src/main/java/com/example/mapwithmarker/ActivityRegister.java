@@ -14,7 +14,7 @@ import androidx.core.app.TaskStackBuilder;
 
 public class ActivityRegister extends AppCompatActivity {
     EditText etUser, etPwd, etRepwd;
-    Button btnRegister, btnGoToLogin;
+    Button btnRegister;
     DBHelper dbHelper;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -24,17 +24,8 @@ public class ActivityRegister extends AppCompatActivity {
         etUser = findViewById(R.id.etUsername);
         etPwd = findViewById(R.id.etPassword);
         etRepwd = findViewById(R.id.etRePassword);
-        btnGoToLogin = findViewById(R.id.btnLogIn);
 
         btnRegister = findViewById(R.id.btnRegister);
-        btnGoToLogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(ActivityRegister.this, ActivityLogin.class);
-                startActivity(intent);
-            }
-        });
-
 
         btnRegister.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -57,6 +48,8 @@ public class ActivityRegister extends AppCompatActivity {
                         boolean success=  dbHelper.insertData(user, pwd);
                         if(success){
                             Toast.makeText(ActivityRegister.this, "User Registered Successfully", Toast.LENGTH_LONG).show();
+                            Intent intent = new Intent(ActivityRegister.this, ActivityLogin.class);
+                            startActivity(intent);
                         }
                         else {
                             Toast.makeText(ActivityRegister.this, "User Registered Failed", Toast.LENGTH_SHORT).show();

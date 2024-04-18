@@ -11,7 +11,7 @@ import android.widget.EditText;
 
 public class Landing extends AppCompatActivity {
 
-    Button signOut, btnAdmin;
+    Button signOut, btnAdmin, plusButton;
     DBHelper dbHelper;
 
     boolean IS_ADMIN = false;
@@ -23,10 +23,9 @@ public class Landing extends AppCompatActivity {
 
         IS_ADMIN = getIntent().getBooleanExtra("IS_USER_ADMIN", false);
 
-        Log.d("Bruh2", IS_ADMIN ? "true" : "false");
-
         signOut = findViewById(R.id.signOutButton);
         btnAdmin = findViewById(R.id.admin_button);
+        plusButton = findViewById(R.id.plusButton);
         dbHelper = new DBHelper(this);
 
         if (IS_ADMIN) {
@@ -46,6 +45,14 @@ public class Landing extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(Landing.this, ActivityStartUp.class);
+                startActivity(intent);
+            }
+        });
+
+        plusButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Landing.this, MapsMarkerActivity.class);
                 startActivity(intent);
             }
         });
