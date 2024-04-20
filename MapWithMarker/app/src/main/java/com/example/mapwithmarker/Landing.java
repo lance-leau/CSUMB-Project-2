@@ -11,6 +11,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import java.util.Objects;
+
 public class Landing extends AppCompatActivity {
 
     Button signOut, btnAdmin, plusButton;
@@ -18,6 +20,8 @@ public class Landing extends AppCompatActivity {
     DBHelper dbHelper;
 
     boolean IS_ADMIN = false;
+
+    String username;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

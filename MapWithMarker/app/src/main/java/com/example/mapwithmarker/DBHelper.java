@@ -18,7 +18,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("create table users(username TEXT primary key, password TEXT)");
+        db.execSQL("create table users(user_ID INTEGER PRIMARY KEY AUTOINCREMENT, username TEXT UNIQUE, password TEXT)");
 
         ContentValues contentValues = new ContentValues();
         contentValues.put("username", "admin");
@@ -58,6 +58,9 @@ public class DBHelper extends SQLiteOpenHelper {
         return username.equals("admin") && pwd.equals("admin");
     }
 
-
-
+    public String getUserByID(int id) {
+        SQLiteDatabase myDB = getReadableDatabase();
+        Cursor cursor = myDB.rawQuery("SELECT * FROM users WHERE user_ID = ?", new String[]{String.valueOf(id)});
+        return cursor.moveToFirst() ? "User ID: " + cursor.getInt(0) + "\nUsername: " + cursor.getString(1) + "\nPassword: " + cursor.getString(2) : "";
+    }
 }
