@@ -11,7 +11,7 @@ import android.widget.EditText;
 
 public class Landing extends AppCompatActivity {
 
-    Button signOut, btnAdmin, plusButton;
+    Button signOut, btnAdmin, plusButton, btnLogoSettings, btnSettings;
     DBHelper dbHelper;
 
     boolean IS_ADMIN = false;
@@ -26,6 +26,8 @@ public class Landing extends AppCompatActivity {
         signOut = findViewById(R.id.signOutButton);
         btnAdmin = findViewById(R.id.admin_button);
         plusButton = findViewById(R.id.plusButton);
+        btnSettings = findViewById(R.id.settings);
+        btnLogoSettings = findViewById(R.id.LogoSettings);
         dbHelper = new DBHelper(this);
 
         if (IS_ADMIN) {
@@ -33,6 +35,9 @@ public class Landing extends AppCompatActivity {
         } else {
             btnAdmin.setVisibility(View.GONE); // Hide admin button
         }
+
+        btnSettings.setVisibility(View.GONE);
+        signOut.setVisibility(View.GONE);
         btnAdmin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -53,6 +58,31 @@ public class Landing extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(Landing.this, MapsMarkerActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        btnLogoSettings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (btnSettings.getVisibility() == View.GONE) {
+                    btnSettings.setVisibility(View.VISIBLE);
+                    signOut.setVisibility(View.VISIBLE);
+                }
+                else {
+                    btnSettings.setVisibility(View.GONE);
+                    signOut.setVisibility(View.GONE);
+
+                }
+
+            }
+        });
+
+        btnSettings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Landing.this, ActivitySettings.class);
+                startActivity(intent);
                 startActivity(intent);
             }
         });

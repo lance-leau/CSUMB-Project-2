@@ -18,22 +18,28 @@
         android:layout_alignParentStart="true"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"/>
-<!--        android:layout_below="@id/topBackground" />-->
 
     <!-- Sign Out Button -->
+
     <Button
         android:id="@+id/signOutButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/sign_out"
-        android:textColor="@android:color/white"
-        android:background="@color/colorPrimaryDark"
+        android:layout_width="42dp"
+        android:layout_height="32dp"
+        android:layout_below="@id/LogoSettings"
         android:layout_alignParentEnd="true"
-        android:layout_marginEnd="16dp"
-        android:layout_marginTop="16dp"/>
-<!--        android:layout_below="@id/topBackground" -->
+        android:layout_marginTop="-60dp"
+        android:layout_marginEnd="37dp"
+        android:background="@color/colorPrimaryDark"
+        android:text="@string/sign_out"
+        android:textColor="@android:color/white" />
 
-    <!-- Admin Button -->
+    <!-- >Admin Button -->
+
+    <!-- >Settings Button -->
+
+    <!-- >Settings Logo Button -->
+
+
     <Button
         android:id="@+id/admin_button"
         android:layout_width="300dp"
@@ -41,7 +47,7 @@
         android:layout_below="@id/signOutButton"
         android:layout_centerHorizontal="true"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="163dp"
         android:layout_marginEnd="32dp"
         android:layout_marginBottom="32dp"
         android:background="@color/colorPrimaryDark"
@@ -49,16 +55,40 @@
         android:text="@string/admin"
         android:textColor="@android:color/holo_red_dark"
         android:textSize="25sp" />
-<!--        android:layout_below="@id/topBackground" -->
 
-    <!-- Text "Projects" at the Middle -->
+
+    <Button
+        android:id="@+id/settings"
+        android:layout_width="42dp"
+        android:layout_height="42dp"
+        android:layout_below="@id/signOutButton"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="14dp"
+        android:layout_marginEnd="31dp"
+        android:background="@color/colorPrimaryDark"
+        android:text="@string/go_to_settings"
+        android:textColor="@android:color/white"
+        android:textSize="16sp" />
+
+    <Button
+        android:id="@+id/LogoSettings"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="97dp"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/logosettings"
+        android:gravity="center" />
+
     <TextView
         android:id="@+id/projectsText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="16dp"
-        android:text="Projects"
+        android:text="@string/projects"
         android:textColor="@android:color/holo_blue_dark"
         android:textSize="24sp"
         android:textStyle="bold" />

@@ -61,6 +61,7 @@
         <activity android:name=".ActivityLogin"/>
         <activity android:name=".Landing"/>
         <activity android:name=".ActivityRegister"/>
+        <activity android:name=".ActivitySettings"/>
 
 
     </application>
