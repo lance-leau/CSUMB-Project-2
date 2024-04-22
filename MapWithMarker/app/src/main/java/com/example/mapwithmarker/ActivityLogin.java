@@ -14,6 +14,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.TaskStackBuilder;
 
+import com.example.mapwithmarker.Database.DBHelper2;
 
 
 public class ActivityLogin  extends AppCompatActivity {
@@ -22,7 +23,7 @@ public class ActivityLogin  extends AppCompatActivity {
 
     EditText etUser, etPwd;
     Button btnLogin;
-    DBHelper dbHelper;
+    DBHelper2 dbHelper;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,7 +31,7 @@ public class ActivityLogin  extends AppCompatActivity {
         etUser = findViewById(R.id.etUsername);
         etPwd = findViewById(R.id.etPassword);
         btnLogin = findViewById(R.id.btnLogin);
-        dbHelper = new DBHelper(this);
+        dbHelper = new DBHelper2(this);
 
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override

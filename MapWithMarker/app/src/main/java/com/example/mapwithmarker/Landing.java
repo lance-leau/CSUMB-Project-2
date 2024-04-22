@@ -9,10 +9,12 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.example.mapwithmarker.Database.DBHelper2;
+
 public class Landing extends AppCompatActivity {
 
     Button signOut, btnAdmin, plusButton, btnLogoSettings, btnSettings;
-    DBHelper dbHelper;
+    DBHelper2 dbHelper;
 
     boolean IS_ADMIN = false;
 
@@ -28,7 +30,7 @@ public class Landing extends AppCompatActivity {
         plusButton = findViewById(R.id.plusButton);
         btnSettings = findViewById(R.id.settings);
         btnLogoSettings = findViewById(R.id.LogoSettings);
-        dbHelper = new DBHelper(this);
+        dbHelper = new DBHelper2(this);
 
         if (IS_ADMIN) {
             btnAdmin.setVisibility(View.VISIBLE); // Show admin button

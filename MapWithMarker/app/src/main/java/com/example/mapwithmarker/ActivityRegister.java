@@ -12,14 +12,18 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.TaskStackBuilder;
 
+import com.example.mapwithmarker.Database.DBHelper2;
+
 public class ActivityRegister extends AppCompatActivity {
     EditText etUser, etPwd, etRepwd;
     Button btnRegister;
-    DBHelper dbHelper;
+    //DBHelper dbHelper;
+
+    DBHelper2 dbHelper;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        dbHelper = new DBHelper(this);
+        dbHelper = new DBHelper2(this);
         setContentView(R.layout.activity_register);
         etUser = findViewById(R.id.etUsername);
         etPwd = findViewById(R.id.etPassword);

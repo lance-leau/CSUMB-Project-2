@@ -17,12 +17,14 @@ import android.widget.Spinner;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.mapwithmarker.Database.DBHelper2;
+
 public class ActivitySettings extends AppCompatActivity {
     private EditText usernameEditText;
     Button btnSignedOut;
     Spinner colorSpinner;
     private static final String USERNAME = "USERNAME";
-    DBHelper dbHelper = new DBHelper(this);
+    DBHelper2 dbHelper = new DBHelper2(this);
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -76,25 +78,8 @@ public class ActivitySettings extends AppCompatActivity {
         });
 
         usernameEditText = findViewById(R.id.usernameEditText);
-        String username = getUsernameFromDatabase();
 
-        usernameEditText.setText(username);
     }
 
-    @SuppressLint("Range")
-    private String getUsernameFromDatabase() {
-        // Assuming DBHelper is in the same package
-        SQLiteDatabase db = dbHelper.getWritableDatabase();
 
-        String username = "";
-
-        Cursor cursor = db.rawQuery("SELECT username FROM users LIMIT 1", null);
-        if (cursor != null && cursor.moveToFirst()) {
-            username = cursor.getString(cursor.getColumnIndex("username"));
-            cursor.close();
-        }
-
-        db.close();
-        return username;
-    }
 }
