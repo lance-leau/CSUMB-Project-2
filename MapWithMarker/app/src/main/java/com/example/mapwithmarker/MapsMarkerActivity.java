@@ -1,15 +1,18 @@
 package com.example.mapwithmarker;
 
+
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.mapwithmarker.Utils.*;
+import static com.example.mapwithmarker.Utils.CityCoordinatesUtils.*;
 import com.example.mapwithmarker.databinding.ActivityMapsBinding;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -17,6 +20,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.io.IOException;
@@ -30,7 +34,7 @@ import java.util.ArrayList;
 public class MapsMarkerActivity extends AppCompatActivity
         implements OnMapReadyCallback {
 
-    ArrayList<LatLng> destList;
+    Steps steps;
     GoogleMap GM;
 
     ActivityMapsBinding binding;
@@ -42,6 +46,7 @@ public class MapsMarkerActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        steps = new Steps();
 
         binding = ActivityMapsBinding.inflate(getLayoutInflater());
 
@@ -80,27 +85,21 @@ public class MapsMarkerActivity extends AppCompatActivity
                 // get the address
                 String address = binding.AddNewDestinationEditText.getText().toString().toUpperCase();
 
-                // create the new textView
-                TextView textView = new TextView(MapsMarkerActivity.this);
-                textView.setText(address);
-                LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
-                        LinearLayout.LayoutParams.MATCH_PARENT,
-                        LinearLayout.LayoutParams.WRAP_CONTENT
-                );
-                textView.setTextSize(30);
-                textView.setPadding(50, 16, 16, 16);
-                textView.setLayoutParams(layoutParams);
-                binding.stepsListLinearLayout.addView(textView, binding.stepsListLinearLayout.getChildCount()-1);
-
                 // create the new marker
                 LatLng coordinates = CityCoordinatesUtils.getCoordinates(MapsMarkerActivity.this, address);
                 if (coordinates == null){
-                    coordinates = new LatLng(0, 0);
-                } else {
-                    GM.addMarker(new MarkerOptions()
-                            .position(coordinates)
-                            .title(address));
+                    binding.AddNewDestinationEditText.setText("");
+                    Toast.makeText(MapsMarkerActivity.this, "address is invalid", Toast.LENGTH_SHORT).show();
+                    return;
                 }
+                Marker marker = GM.addMarker(new MarkerOptions().position(coordinates).title(address));
+
+                TripStepView tsv = new TripStepView(MapsMarkerActivity.this, binding, steps, marker);
+                tsv.setStepText(address);
+                binding.stepsListLinearLayout.addView(tsv, binding.stepsListLinearLayout.getChildCount()-1);
+
+                // add the Step to the dest list
+                steps.addStep(tsv);
 
                 // clear the text
                 binding.AddNewDestinationEditText.setText("");

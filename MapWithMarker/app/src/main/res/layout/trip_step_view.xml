@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="70dp"
+    android:layout_margin="16dp"
+    android:background="#4499AD"
+    android:gravity="center"
+    android:orientation="horizontal"
+    android:paddingHorizontal="10dp">
+
+    <!-- Name TextView -->
+    <TextView
+        android:id="@+id/text_step_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="Step Name"
+        android:textSize="16sp" />
+
+    <!-- Separator -->
+    <View
+        android:layout_height="match_parent"
+        android:layout_marginTop="6dp"
+        android:layout_marginBottom="6dp"
+        android:layout_marginEnd="10dp"
+        android:layout_width="3dp"
+        android:background="#298095"/>
+
+    <!-- Remove Button -->
+    <Button
+        android:id="@+id/btn_remove"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:text="Remove" />
+
+    <!-- Move Up Button -->
+    <Button
+        android:id="@+id/btn_move_up"
+        android:layout_width="50dp"
+        android:layout_height="65dp"
+        android:text="↑"
+        android:textSize="32sp" />
+
+    <!-- Move Down Button -->
+    <Button
+        android:id="@+id/btn_move_down"
+        android:layout_width="50dp"
+        android:layout_height="65dp"
+        android:text="↓"
+        android:textSize="32sp" />
+
+</LinearLayout>

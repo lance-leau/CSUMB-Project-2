@@ -9,6 +9,7 @@
         android:layout_height="250dp"
         android:layout_width="match_parent"
         android:orientation="vertical"
+        android:background="#214A88"
         android:id="@+id/daddy_linearLayout">
 
         <TextView
@@ -16,16 +17,22 @@
             android:layout_width="match_parent"
             android:layout_height="100dp"
             android:text="@string/trip_planner_title"
-            android:background="#1C788D"
+            android:background="#214A88"
             android:textSize="58sp"
             android:gravity="center"
             android:layout_gravity="center_horizontal"/>
+
+        <View
+            android:layout_height="3dp"
+            android:layout_width="match_parent"
+            android:background="#0F1B2D"
+            android:layout_margin="10dp"/>
 
         <ScrollView
             android:id="@+id/steps_ScrollView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="#1C788D">
+            android:background="#214A88">
 
             <LinearLayout
                 android:layout_width="match_parent"
