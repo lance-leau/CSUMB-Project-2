@@ -20,7 +20,7 @@
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
-        android:label="@string/app_name"
+        android:label="test"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
@@ -36,15 +36,33 @@
             android:value="${MAPS_API_KEY}" />
 
         <activity
-            android:name=".MapsMarkerActivity"
-            android:label="@string/title_activity_maps"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+            android:name=".MapsMarkerActivity"/>
 
-                <category android:name="android.intent.category.LAUNCHER" />
+<!--         <activity-->
+<!--            android:name=".MapsMarkerActivity"-->
+<!--            android:label="@string/title_activity_maps"-->
+<!--            android:exported="true">-->
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.MAIN" />-->
+
+<!--               &lt;!&ndash; <category android:name="android.intent.category.LAUNCHER" /> &ndash;&gt;-->
+<!--            </intent-filter>-->
+<!--        </activity>-->
+
+        <activity android:name=".ActivityStartUp"
+            android:exported="true">
+
+            <intent-filter>
+                <category android:name="android.intent.category.LAUNCHER"/>
+                <action android:name="android.intent.action.MAIN"/>
             </intent-filter>
+
         </activity>
+        <activity android:name=".ActivityLogin"/>
+        <activity android:name=".Landing"/>
+        <activity android:name=".ActivityRegister"/>
+
+
     </application>
 
 </manifest>
