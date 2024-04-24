@@ -54,6 +54,9 @@ public class ActivityLogin  extends AppCompatActivity {
                     Toast.makeText(ActivityLogin.this, "An admin has login", Toast.LENGTH_SHORT).show();
                 if(userDao.login(etUser.getText().toString(),etPwd.getText().toString())){
                     Intent intent = new Intent(ActivityLogin.this, Landing.class);
+                    intent.putExtra("USERNAME", etUser.getText().toString());
+                    intent.putExtra("PASSWORD", etPwd.getText().toString());
+                    intent.putExtra("ISADMIN", userDao.isAdminUser(etUser.getText().toString()));
                     startActivity(intent);
                 }
                 else {

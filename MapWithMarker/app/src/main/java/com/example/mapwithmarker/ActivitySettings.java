@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.text.InputType;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -13,6 +14,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -22,8 +24,8 @@ import com.example.mapwithmarker.Database.UserDao;
 
 
 public class ActivitySettings extends AppCompatActivity {
-    private EditText usernameEditText;
-
+    private TextView usernameTextView, passwordTextView;
+    boolean isPasswordVisible = false;
     Button btnSignedOut, btnAdmin;
     Spinner colorSpinner;
     private static final String USERNAME = "USERNAME";
@@ -34,8 +36,20 @@ public class ActivitySettings extends AppCompatActivity {
         setContentView(R.layout.activity_settings);
         btnSignedOut = findViewById(R.id.signOutButton);
         colorSpinner = findViewById(R.id.colorSpinner);
+        passwordTextView = findViewById(R.id.passwordEditText);
+        usernameTextView = findViewById(R.id.usernameEditText);
 
         btnAdmin =  findViewById(R.id.seeDatabaseButton);
+
+        usernameTextView.setText(getIntent().getStringExtra("USERNAME"));
+        passwordTextView.setText(getIntent().getStringExtra("PASSWORD"));
+
+        if (getIntent().getBooleanExtra("ISADMIN", false)) {
+            btnAdmin.setVisibility(View.VISIBLE);
+        } else {
+            btnAdmin.setVisibility(View.GONE);
+        }
+
 
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.color_options, android.R.layout.simple_spinner_item);
@@ -86,6 +100,20 @@ public class ActivitySettings extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(ActivitySettings.this, ActivityAdmin.class);
                 startActivity(intent);
+            }
+        });
+
+        passwordTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d("d", isPasswordVisible + "");
+                if (isPasswordVisible) {
+                    isPasswordVisible = false;
+                    passwordTextView.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                } else {
+                    isPasswordVisible = true;
+                    passwordTextView.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
+                }
             }
         });
 

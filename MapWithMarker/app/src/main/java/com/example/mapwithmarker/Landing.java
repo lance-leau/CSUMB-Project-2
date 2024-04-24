@@ -18,13 +18,16 @@ public class Landing extends AppCompatActivity {
 
     Button signOut, btnAdmin, plusButton, btnLogoSettings, btnSettings;
 
-
+    String username;
+    String password;
     MyDatabase myDb;
     UserDao userDao;
     boolean IS_ADMIN = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_landing);
 
@@ -93,7 +96,9 @@ public class Landing extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(Landing.this, ActivitySettings.class);
-                startActivity(intent);
+                intent.putExtra("USERNAME", getIntent().getStringExtra("USERNAME"));
+                intent.putExtra("PASSWORD", getIntent().getStringExtra("PASSWORD"));
+                intent.putExtra("ISADMIN", getIntent().getBooleanExtra("ISADMIN", false));
                 startActivity(intent);
             }
         });
