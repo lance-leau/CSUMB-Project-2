@@ -2,6 +2,8 @@ package com.example.mapwithmarker;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -11,53 +13,61 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.TaskStackBuilder;
+import androidx.room.Room;
+
+import com.example.mapwithmarker.Database.MyDatabase;
+import com.example.mapwithmarker.Database.UserTable;
+import com.example.mapwithmarker.Database.UserDao;
+import com.example.mapwithmarker.databinding.ActivityRegisterBinding;
+
 
 public class ActivityRegister extends AppCompatActivity {
     EditText etUser, etPwd, etRepwd;
     Button btnRegister;
-    DBHelper dbHelper;
+    ActivityRegisterBinding binding;
+    MyDatabase myDb;
+    UserDao userDao;
+
+    public static boolean isAllowed = false;
+
+
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        dbHelper = new DBHelper(this);
+
+        binding = ActivityRegisterBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
         setContentView(R.layout.activity_register);
+
         etUser = findViewById(R.id.etUsername);
         etPwd = findViewById(R.id.etPassword);
         etRepwd = findViewById(R.id.etRePassword);
 
         btnRegister = findViewById(R.id.btnRegister);
 
+        myDb = Room.databaseBuilder(this, MyDatabase.class, "usertable").allowMainThreadQueries()
+                        .fallbackToDestructiveMigration().build();
+
+        userDao= myDb.getDao();
+        myDb.addAdminUser();
+
         btnRegister.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view ) {
-                String user, pwd, rePwd;
-                user = etUser.getText().toString();
-                pwd = etPwd.getText().toString();
-                rePwd = etRepwd.getText().toString();
-                if(user.equals("") || pwd.equals("") || rePwd.equals("")){
-                    Toast.makeText(ActivityRegister.this, "Please fill all the fields", Toast.LENGTH_LONG).show();
-                }else {
-                    if(pwd.equals(rePwd)){
-
-                        if(dbHelper.checkUsername(user) || dbHelper.isAdmin(user, pwd)){//changes
-                            Toast.makeText(ActivityRegister.this, "User Already Exists", Toast.LENGTH_LONG).show();
-                            return;
-                        }
-                        //Proceed with the register
-
-                        boolean success=  dbHelper.insertData(user, pwd);
-                        if(success){
-                            Toast.makeText(ActivityRegister.this, "User Registered Successfully", Toast.LENGTH_LONG).show();
-                            Intent intent = new Intent(ActivityRegister.this, ActivityLogin.class);
-                            startActivity(intent);
-                        }
-                        else {
-                            Toast.makeText(ActivityRegister.this, "User Registered Failed", Toast.LENGTH_SHORT).show();
-                        }
-
+            public void onClick(View v) {
+                String enteredUsername = etUser.getText().toString();
+                if(userDao.is_taken(enteredUsername)) {
+                    Toast.makeText(ActivityRegister.this, "Username already exists", Toast.LENGTH_SHORT).show();
+                } else {
+                    if(!etPwd.getText().toString().equals(etRepwd.getText().toString())){
+                        Toast.makeText(ActivityRegister.this, "The password do not match", Toast.LENGTH_SHORT).show();;
                     }
                     else {
-                        Toast.makeText(ActivityRegister.this, "Passwords do not match", Toast.LENGTH_SHORT).show();
+                        UserTable userTable = new UserTable(0, enteredUsername, etPwd.getText().toString(), false);
+                        userDao.insertUser(userTable);
+                        Toast.makeText(ActivityRegister.this, "Username added", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(ActivityRegister.this, ActivityLogin.class);
+                        startActivity(intent);
                     }
                 }
             }
