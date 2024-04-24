@@ -62,6 +62,7 @@
         <activity android:name=".Landing"/>
         <activity android:name=".ActivityRegister"/>
         <activity android:name=".ActivitySettings"/>
+        <activity android:name=".ActivityAdmin" />
 
 
     </application>

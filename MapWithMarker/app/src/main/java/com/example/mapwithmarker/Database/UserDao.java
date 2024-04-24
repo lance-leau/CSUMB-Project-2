@@ -1,24 +1,28 @@
 package com.example.mapwithmarker.Database;
 
-
 import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.Query;
 
+import java.util.List;
+
 @Dao
 public interface UserDao {
     @Insert
-    void insert(User user);
+    void insertUser(UserTable userTable);
 
-    @Query("SELECT * FROM users WHERE username = :username")
-    User getUserByUsername(String username);
+    @Query("SELECT * FROM UserTable WHERE userName=:username")
+    public boolean is_taken(String username);
 
-    @Query("SELECT COUNT(*) FROM users WHERE username = :username")
-    int countUsers(String username);
+    @Query("SELECT * FROM UserTable WHERE userName=:username AND password=:password")
+    public boolean login(String username, String password);
 
-    @Query("SELECT COUNT(*) FROM users WHERE username = :username AND password = :password")
-    int checkUser(String username, String password);
+    @Query("SELECT isAdmin FROM UserTable WHERE userName=:username")
+    public boolean isAdminUser(String username);
 
-    @Query("SELECT COUNT(*) FROM users WHERE username = 'admin' AND password = 'admin'")
-    int isAdmin();
+    @Query("SELECT * FROM UserTable")
+    List<UserTable> getAllUsers();
+
+    @Query("Delete from UserTable Where username = :username")
+    void deleteUser(String username);
 }

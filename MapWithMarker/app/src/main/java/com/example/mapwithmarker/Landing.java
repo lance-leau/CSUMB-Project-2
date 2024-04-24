@@ -1,6 +1,7 @@
 package com.example.mapwithmarker;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.room.Room;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,13 +10,17 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.example.mapwithmarker.Database.DBHelper2;
+import com.example.mapwithmarker.Database.MyDatabase;
+import com.example.mapwithmarker.Database.UserDao;
+
 
 public class Landing extends AppCompatActivity {
 
     Button signOut, btnAdmin, plusButton, btnLogoSettings, btnSettings;
-    DBHelper2 dbHelper;
 
+
+    MyDatabase myDb;
+    UserDao userDao;
     boolean IS_ADMIN = false;
 
     @Override
@@ -30,7 +35,11 @@ public class Landing extends AppCompatActivity {
         plusButton = findViewById(R.id.plusButton);
         btnSettings = findViewById(R.id.settings);
         btnLogoSettings = findViewById(R.id.LogoSettings);
-        dbHelper = new DBHelper2(this);
+
+        myDb = Room.databaseBuilder(this, MyDatabase.class, "usertable").allowMainThreadQueries()
+                .fallbackToDestructiveMigration().build();
+
+        userDao= myDb.getDao();
 
         if (IS_ADMIN) {
             btnAdmin.setVisibility(View.VISIBLE); // Show admin button

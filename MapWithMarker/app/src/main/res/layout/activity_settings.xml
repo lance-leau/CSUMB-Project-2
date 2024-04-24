@@ -116,6 +116,14 @@
             android:entries="@array/color_options"/>
     </LinearLayout>
 
+    <Button
+        android:id="@+id/seeDatabaseButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="See Database"
+        android:textSize="16sp"
+        android:layout_margin="16dp" />
+
     <!-- Sign Out Button -->
     <Button
         android:id="@+id/signOutButton"

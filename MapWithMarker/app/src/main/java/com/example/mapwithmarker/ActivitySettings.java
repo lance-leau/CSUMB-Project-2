@@ -17,14 +17,16 @@ import android.widget.Spinner;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.mapwithmarker.Database.DBHelper2;
+import com.example.mapwithmarker.Database.MyDatabase;
+import com.example.mapwithmarker.Database.UserDao;
+
 
 public class ActivitySettings extends AppCompatActivity {
     private EditText usernameEditText;
-    Button btnSignedOut;
+
+    Button btnSignedOut, btnAdmin;
     Spinner colorSpinner;
     private static final String USERNAME = "USERNAME";
-    DBHelper2 dbHelper = new DBHelper2(this);
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -32,6 +34,8 @@ public class ActivitySettings extends AppCompatActivity {
         setContentView(R.layout.activity_settings);
         btnSignedOut = findViewById(R.id.signOutButton);
         colorSpinner = findViewById(R.id.colorSpinner);
+
+        btnAdmin =  findViewById(R.id.seeDatabaseButton);
 
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.color_options, android.R.layout.simple_spinner_item);
@@ -47,13 +51,13 @@ public class ActivitySettings extends AppCompatActivity {
                 Log.d("ForestGreenValue", getString(R.string.forest_green));
                 Log.d("DesertSandValue", getString(R.string.desert_sand));
 
-                if (selectedColor.equals("#87CEEB")) { // Sky Blue
+                if (selectedColor.equals("sky_blue")) { // Sky Blue
                     getWindow().getDecorView().setBackgroundColor(Color.parseColor("#87CEEB"));
                     Log.d("BackgroundColor", "Sky Blue");
-                } else if (selectedColor.equals("#228B22")) { // Forest Green
+                } else if (selectedColor.equals("forest_green")) { // Forest Green
                     getWindow().getDecorView().setBackgroundColor(Color.parseColor("#228B22"));
                     Log.d("BackgroundColor", "Forest Green");
-                } else if (selectedColor.equals("#EDC9AF")) { // Desert Sand
+                } else if (selectedColor.equals("desert_sand")) { // Desert Sand
                     getWindow().getDecorView().setBackgroundColor(Color.parseColor("#EDC9AF"));
                     Log.d("BackgroundColor", "Desert Sand");
                 } else {
@@ -77,7 +81,13 @@ public class ActivitySettings extends AppCompatActivity {
             }
         });
 
-        usernameEditText = findViewById(R.id.usernameEditText);
+        btnAdmin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ActivitySettings.this, ActivityAdmin.class);
+                startActivity(intent);
+            }
+        });
 
     }
 

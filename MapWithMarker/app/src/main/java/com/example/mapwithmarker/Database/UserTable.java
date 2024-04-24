@@ -1,22 +1,27 @@
 package com.example.mapwithmarker.Database;
 
-
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
 
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
-@Entity(tableName = "users")
+@Entity
+public class UserTable {
 
-public class User {
     @PrimaryKey(autoGenerate = true)
-    private int id;
 
+    private int id;
     private String username;
     private String password;
 
-    public User(String username, String password) {
+    private boolean isAdmin;
+
+    public UserTable(int id, String username, String password, boolean isAdmin) {
+        this.id = id;
         this.username = username;
         this.password = password;
+        this.isAdmin = isAdmin;
     }
 
     public int getId() {
@@ -41,5 +46,13 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public boolean isAdmin() {
+        return isAdmin;
+    }
+
+    public void setAdmin(boolean admin) {
+        isAdmin = admin;
     }
 }

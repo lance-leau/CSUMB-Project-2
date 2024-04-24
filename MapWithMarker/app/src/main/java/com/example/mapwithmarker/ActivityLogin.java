@@ -13,39 +13,51 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.TaskStackBuilder;
+import androidx.room.Room;
 
-import com.example.mapwithmarker.Database.DBHelper2;
+import com.example.mapwithmarker.Database.MyDatabase;
+import com.example.mapwithmarker.Database.UserDao;
+import com.example.mapwithmarker.databinding.ActivityLoginBinding;
+import com.example.mapwithmarker.databinding.ActivityRegisterBinding;
 
 
 public class ActivityLogin  extends AppCompatActivity {
 
     private static final String IS_USER_ADMIN = "IS_USER_ADMIN";
 
+    ActivityLoginBinding binding;
+
     EditText etUser, etPwd;
     Button btnLogin;
-    DBHelper2 dbHelper;
+    MyDatabase myDb;
+    UserDao userDao;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        binding = ActivityLoginBinding.inflate(getLayoutInflater());
         setContentView(R.layout.activity_login);
         etUser = findViewById(R.id.etUsername);
         etPwd = findViewById(R.id.etPassword);
         btnLogin = findViewById(R.id.btnLogin);
-        dbHelper = new DBHelper2(this);
+
+        myDb = Room.databaseBuilder(this, MyDatabase.class, "usertable").allowMainThreadQueries()
+                .fallbackToDestructiveMigration().build();
+        userDao = myDb.getDao();
+        myDb.addAdminUser();
+
 
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                boolean isLoggedId = dbHelper.checkUser(etUser.getText().toString(), etPwd.getText().toString());
-                boolean isAdmin = dbHelper.isAdmin(etUser.getText().toString(), etPwd.getText().toString());
-                if(isLoggedId || isAdmin){
-                    boolean isUserAdmin = dbHelper.isAdmin(etUser.getText().toString(), etPwd.getText().toString());
+
+                if(userDao.isAdminUser(etUser.getText().toString()))
+                    Toast.makeText(ActivityLogin.this, "An admin has login", Toast.LENGTH_SHORT).show();
+                if(userDao.login(etUser.getText().toString(),etPwd.getText().toString())){
                     Intent intent = new Intent(ActivityLogin.this, Landing.class);
-                    //Log.d("Bruh", isUserAdmin ? "true" : "false");
-                    intent.putExtra(IS_USER_ADMIN, isUserAdmin);
                     startActivity(intent);
-                }else{
-                    Toast.makeText(ActivityLogin.this, "Login Failed", Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    Toast.makeText(ActivityLogin.this, "Invalid Name or password", Toast.LENGTH_SHORT).show();
                 }
 
             }
