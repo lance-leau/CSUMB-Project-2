@@ -3,6 +3,7 @@ package com.example.mapwithmarker.Database;
 import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.Query;
+import androidx.room.Update;
 
 import java.util.List;
 
@@ -10,6 +11,9 @@ import java.util.List;
 public interface UserDao {
     @Insert
     void insertUser(UserTable userTable);
+
+    @Update
+    void updateUser(UserTable user);
 
     @Query("SELECT * FROM UserTable WHERE userName=:username")
     public boolean is_taken(String username);
