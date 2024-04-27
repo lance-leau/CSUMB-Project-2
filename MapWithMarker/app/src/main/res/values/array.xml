@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="color_options">
+        <item>sky_blue</item>
+        <item>forest_green</item>
+        <item>desert_sand</item>
+        <!-- Add more color options as needed -->
+    </string-array>
+</resources>

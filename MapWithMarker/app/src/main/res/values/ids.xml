@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="userListLayout" type="id" />
+    <item name="userListTextView" type="id" />
+    <item name="users" type="id" />
+</resources>
