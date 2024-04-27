@@ -6,7 +6,7 @@ import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
-@Database(entities = {UserTable.class}, version = 1)
+@Database(entities = {UserTable.class}, version = 3)
 
 public abstract class MyDatabase extends RoomDatabase {
     public abstract UserDao getDao();
@@ -28,7 +28,7 @@ public abstract class MyDatabase extends RoomDatabase {
             public void run() {
                 UserDao userDao = getDao();
                 if (!userDao.is_taken("admin")) { // Check if "admin" user already exists
-                    UserTable adminUser = new UserTable(0, "admin", "admin", true);
+                    UserTable adminUser = new UserTable(0, "admin", "admin", true,"None");//TODO
                     userDao.insertUser(adminUser);
                 }
             }

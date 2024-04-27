@@ -43,16 +43,22 @@ public class ActivityLogin  extends AppCompatActivity {
         myDb = Room.databaseBuilder(this, MyDatabase.class, "usertable").allowMainThreadQueries()
                 .fallbackToDestructiveMigration().build();
         userDao = myDb.getDao();
+        Log.d("WHY","ARE U WITH ME");
         myDb.addAdminUser();
+        Log.d("WHY","Works ?");
 
 
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Log.d("WHY","1");
 
-                if(userDao.isAdminUser(etUser.getText().toString()))
+                if(userDao.isAdminUser(etUser.getText().toString())) {
                     Toast.makeText(ActivityLogin.this, "An admin has login", Toast.LENGTH_SHORT).show();
+                    userDao.updateCities(etUser.getText().toString(),"1 1 Paris, Lyon, Toulouse");
+                }
                 if(userDao.login(etUser.getText().toString(),etPwd.getText().toString())){
+                    Log.d("WHY","2");
                     Intent intent = new Intent(ActivityLogin.this, Landing.class);
                     intent.putExtra("USERNAME", etUser.getText().toString());
                     intent.putExtra("PASSWORD", etPwd.getText().toString());

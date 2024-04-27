@@ -14,14 +14,16 @@ public class UserTable {
     private int id;
     private String username;
     private String password;
-
     private boolean isAdmin;
 
-    public UserTable(int id, String username, String password, boolean isAdmin) {
+    private String cities;
+
+    public UserTable(int id, String username, String password, boolean isAdmin,String cities) {
         this.id = id;
         this.username = username;
         this.password = password;
         this.isAdmin = isAdmin;
+        this.cities = cities;
     }
 
     public int getId() {
@@ -54,5 +56,13 @@ public class UserTable {
 
     public void setAdmin(boolean admin) {
         isAdmin = admin;
+    }
+
+    public String getCities() {
+        return cities;
+    }
+
+    public void setCities(String cities) {
+        this.cities = cities;
     }
 }

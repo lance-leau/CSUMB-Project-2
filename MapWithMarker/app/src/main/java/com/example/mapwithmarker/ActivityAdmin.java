@@ -122,7 +122,7 @@ public class ActivityAdmin extends AppCompatActivity {
                 TableRow.LayoutParams.MATCH_PARENT,
                 TableRow.LayoutParams.WRAP_CONTENT
         ));
-        headerRow.setGravity(Gravity.CENTER_HORIZONTAL); // Center the header row horizontally
+        headerRow.setGravity(Gravity.CENTER_HORIZONTAL);
 
         // Username Title
         TextView usernameTitle = new TextView(this);
@@ -186,7 +186,7 @@ public class ActivityAdmin extends AppCompatActivity {
             userDao.deleteUser(username);
             refreshUserList();
         } else {
-            Toast.makeText(ActivityAdmin.this, "Can't delete an admin account", Toast.LENGTH_LONG).show();
+            Toast.makeText(ActivityAdmin.this, "An admin account can't be deleted ", Toast.LENGTH_LONG).show();
         }
     }
 

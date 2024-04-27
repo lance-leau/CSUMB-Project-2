@@ -63,7 +63,7 @@ public class ActivityRegister extends AppCompatActivity {
                         Toast.makeText(ActivityRegister.this, "The password do not match", Toast.LENGTH_SHORT).show();;
                     }
                     else {
-                        UserTable userTable = new UserTable(0, enteredUsername, etPwd.getText().toString(), false);
+                        UserTable userTable = new UserTable(0, enteredUsername, etPwd.getText().toString(), false,"0");
                         userDao.insertUser(userTable);
                         Toast.makeText(ActivityRegister.this, "Username added", Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(ActivityRegister.this, ActivityLogin.class);

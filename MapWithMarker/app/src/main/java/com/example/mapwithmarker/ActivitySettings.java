@@ -26,7 +26,7 @@ import com.example.mapwithmarker.Database.UserDao;
 public class ActivitySettings extends AppCompatActivity {
     private TextView usernameTextView, passwordTextView;
     boolean isPasswordVisible = false;
-    Button btnSignedOut, btnAdmin;
+    Button btnSignedOut, btnAdmin, btnArrowBack;
     Spinner colorSpinner;
     private static final String USERNAME = "USERNAME";
 
@@ -40,6 +40,7 @@ public class ActivitySettings extends AppCompatActivity {
         usernameTextView = findViewById(R.id.usernameEditText);
 
         btnAdmin =  findViewById(R.id.seeDatabaseButton);
+        btnArrowBack = findViewById(R.id.arrowBack);
 
         usernameTextView.setText(getIntent().getStringExtra("USERNAME"));
         passwordTextView.setText(getIntent().getStringExtra("PASSWORD"));
@@ -49,6 +50,14 @@ public class ActivitySettings extends AppCompatActivity {
         } else {
             btnAdmin.setVisibility(View.GONE);
         }
+
+        btnArrowBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ActivitySettings.this, Landing.class);
+                startActivity(intent);
+            }
+        });
 
 
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,

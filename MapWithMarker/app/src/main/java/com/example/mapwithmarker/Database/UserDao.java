@@ -16,7 +16,7 @@ public interface UserDao {
     void updateUser(UserTable user);
 
     @Query("SELECT * FROM UserTable WHERE userName=:username")
-    public boolean is_taken(String username);
+    public  boolean is_taken(String username);
 
     @Query("SELECT * FROM UserTable WHERE userName=:username AND password=:password")
     public boolean login(String username, String password);
@@ -29,4 +29,8 @@ public interface UserDao {
 
     @Query("Delete from UserTable Where username = :username")
     void deleteUser(String username);
+
+    @Query("UPDATE UserTable SET cities=:newCities WHERE username=:username")
+    void updateCities(String username, String newCities);
+
 }
