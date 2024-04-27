@@ -64,6 +64,7 @@
                         android:layout_marginTop="20dp"
                         android:layout_width="90dp"
                         android:layout_height="50dp"
+                        android:background="@drawable/trip_button"
                         android:text="Add" />
 
 

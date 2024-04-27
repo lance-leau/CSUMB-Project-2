@@ -46,6 +46,14 @@ public class TripStepView extends LinearLayout {
         moveDownButton = findViewById(R.id.btn_move_down);
 
         // Set onClickListeners
+
+        stepTextView.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((MapsMarkerActivity)context).goToAbout(stepTextView.getText().toString(), marker.getPosition());
+            }
+        });
+
         removeButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {

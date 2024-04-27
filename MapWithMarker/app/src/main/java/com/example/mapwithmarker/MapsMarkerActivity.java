@@ -1,20 +1,20 @@
 package com.example.mapwithmarker;
 
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.mapwithmarker.Utils.*;
-import static com.example.mapwithmarker.Utils.CityCoordinatesUtils.*;
+import com.example.mapwithmarker.Utils.Animations;
+import com.example.mapwithmarker.Utils.CityCoordinatesUtils;
+import com.example.mapwithmarker.Utils.Steps;
+import com.example.mapwithmarker.Utils.StringParser;
+import com.example.mapwithmarker.Utils.TripStepView;
 import com.example.mapwithmarker.databinding.ActivityMapsBinding;
-
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -22,9 +22,6 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-
-import java.io.IOException;
-import java.util.ArrayList;
 
 
 /**
@@ -83,7 +80,7 @@ public class MapsMarkerActivity extends AppCompatActivity
             @Override
             public void onClick(View v) {
                 // get the address
-                String address = binding.AddNewDestinationEditText.getText().toString().toUpperCase();
+                String address = StringParser.parseString(binding.AddNewDestinationEditText.getText().toString());
 
                 // create the new marker
                 LatLng coordinates = CityCoordinatesUtils.getCoordinates(MapsMarkerActivity.this, address);
@@ -124,6 +121,13 @@ public class MapsMarkerActivity extends AppCompatActivity
 
         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(france, (float)(5.3)));
         // [END_EXCLUDE]
+    }
+
+    public void goToAbout(String address, LatLng coords) {
+        Intent intent = new Intent(MapsMarkerActivity.this, About.class);
+        intent.putExtra("ADDRESS", address);
+        intent.putExtra("LatLng", coords);
+        startActivity(intent);
     }
 }
 

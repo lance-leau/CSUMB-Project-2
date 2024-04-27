@@ -40,7 +40,6 @@ public class ActivityLogin  extends AppCompatActivity {
                 if(isLoggedId || isAdmin){
                     boolean isUserAdmin = dbHelper.isAdmin(etUser.getText().toString(), etPwd.getText().toString());
                     Intent intent = new Intent(ActivityLogin.this, Landing.class);
-                    Log.d("Bruh", isUserAdmin ? "true" : "false");
                     intent.putExtra(IS_USER_ADMIN, isUserAdmin);
                     startActivity(intent);
                 }else{
