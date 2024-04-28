@@ -12,15 +12,33 @@
         android:background="#214A88"
         android:id="@+id/daddy_linearLayout">
 
-        <TextView
-            android:id="@+id/PlanTripTitle"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="100dp"
-            android:text="@string/trip_planner_title"
-            android:background="#214A88"
-            android:textSize="58sp"
-            android:gravity="center"
-            android:layout_gravity="center_horizontal"/>
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/back_to_landing_button"
+                android:layout_width="60dp"
+                android:layout_height="50dp"
+                android:layout_marginStart="10dp"
+                android:text="←"
+                android:textSize="40sp"
+                android:layout_marginTop="20dp"/>
+
+            <TextView
+                android:id="@+id/PlanTripTitle"
+                android:layout_marginEnd="80dp"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:text="@string/trip_planner_title"
+                android:textSize="58sp"
+                android:gravity="center"
+                android:layout_gravity="center_horizontal"/>
+
+        </LinearLayout>
+
+
 
         <View
             android:layout_height="3dp"

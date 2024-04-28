@@ -18,6 +18,7 @@ import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.room.Room;
 
 import com.example.mapwithmarker.Database.MyDatabase;
 import com.example.mapwithmarker.Database.UserDao;
@@ -28,7 +29,9 @@ public class ActivitySettings extends AppCompatActivity {
     boolean isPasswordVisible = false;
     Button btnSignedOut, btnAdmin, btnArrowBack;
     Spinner colorSpinner;
-    private static final String USERNAME = "USERNAME";
+    String username;
+    MyDatabase myDb;
+    UserDao userDao;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -38,14 +41,20 @@ public class ActivitySettings extends AppCompatActivity {
         colorSpinner = findViewById(R.id.colorSpinner);
         passwordTextView = findViewById(R.id.passwordEditText);
         usernameTextView = findViewById(R.id.usernameEditText);
+        username = getIntent().getStringExtra("USERNAME");
+
+        myDb = Room.databaseBuilder(this, MyDatabase.class, "usertable").allowMainThreadQueries()
+                .fallbackToDestructiveMigration().build();
+
+        userDao= myDb.getDao();
 
         btnAdmin =  findViewById(R.id.seeDatabaseButton);
         btnArrowBack = findViewById(R.id.arrowBack);
 
-        usernameTextView.setText(getIntent().getStringExtra("USERNAME"));
-        passwordTextView.setText(getIntent().getStringExtra("PASSWORD"));
+        usernameTextView.setText(username);
+        passwordTextView.setText(userDao.retrievePwd(username));
 
-        if (getIntent().getBooleanExtra("ISADMIN", false)) {
+        if (userDao.isAdminUser(username)) {
             btnAdmin.setVisibility(View.VISIBLE);
         } else {
             btnAdmin.setVisibility(View.GONE);
@@ -55,6 +64,7 @@ public class ActivitySettings extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(ActivitySettings.this, Landing.class);
+                intent.putExtra("USERNAME", username);
                 startActivity(intent);
             }
         });
@@ -108,6 +118,7 @@ public class ActivitySettings extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(ActivitySettings.this, ActivityAdmin.class);
+                intent.putExtra("USERNAME", username);
                 startActivity(intent);
             }
         });

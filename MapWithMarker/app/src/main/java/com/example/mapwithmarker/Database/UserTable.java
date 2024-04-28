@@ -23,7 +23,7 @@ public class UserTable {
         this.username = username;
         this.password = password;
         this.isAdmin = isAdmin;
-        this.cities = cities;
+        this.cities = "0";
     }
 
     public int getId() {

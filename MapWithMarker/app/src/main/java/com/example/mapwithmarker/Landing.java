@@ -9,9 +9,17 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.GridLayout;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.example.mapwithmarker.Database.MyDatabase;
 import com.example.mapwithmarker.Database.UserDao;
+import com.example.mapwithmarker.Utils.RoadTripView;
+import com.example.mapwithmarker.Utils.StringParser;
+import com.example.mapwithmarker.databinding.RoadTripViewBinding;
+
+import java.util.ArrayList;
 
 
 public class Landing extends AppCompatActivity {
@@ -19,19 +27,18 @@ public class Landing extends AppCompatActivity {
     Button signOut, btnAdmin, plusButton, btnLogoSettings, btnSettings;
 
     String username;
-    String password;
     MyDatabase myDb;
     UserDao userDao;
     boolean IS_ADMIN = false;
+    ArrayList<RoadTripView> roadTripViews;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_landing);
 
         IS_ADMIN = getIntent().getBooleanExtra("IS_USER_ADMIN", false);
+        username = getIntent().getStringExtra("USERNAME");
 
 
         signOut = findViewById(R.id.signOutButton);
@@ -73,6 +80,7 @@ public class Landing extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(Landing.this, MapsMarkerActivity.class);
+                intent.putExtra("USERNAME", getIntent().getStringExtra("USERNAME"));
                 startActivity(intent);
             }
         });
@@ -98,10 +106,27 @@ public class Landing extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(Landing.this, ActivitySettings.class);
                 intent.putExtra("USERNAME", getIntent().getStringExtra("USERNAME"));
-                intent.putExtra("PASSWORD", getIntent().getStringExtra("PASSWORD"));
-                intent.putExtra("ISADMIN", getIntent().getBooleanExtra("ISADMIN", false));
                 startActivity(intent);
             }
         });
+
+        createRoadTripList();
+    }
+
+    private void createRoadTripList() {
+        roadTripViews = StringParser.parseDBtoRoadTrips(userDao.getRoadTrips(username), this);
+        GridLayout layout = findViewById(R.id.roadTrip_list_linearLayout);
+        layout.setOrientation(GridLayout.HORIZONTAL);
+        for (RoadTripView rt : roadTripViews) {
+            layout.addView(rt, 1);
+        }
+    }
+
+    public void editActivity(RoadTripView roadTripView) {
+        Intent intent = new Intent(this, MapsMarkerActivity.class);
+        intent.putExtra("TRIP", roadTripView.getTrip());
+        intent.putExtra("USERNAME", username);
+        userDao.updateCities(username, StringParser.RoadTripArrToStr(roadTripViews, roadTripView));
+        startActivity(intent);
     }
 }
