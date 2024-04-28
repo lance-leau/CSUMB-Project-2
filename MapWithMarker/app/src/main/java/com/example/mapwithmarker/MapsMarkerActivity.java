@@ -1,11 +1,16 @@
 package com.example.mapwithmarker;
 
 
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -15,6 +20,7 @@ import com.example.mapwithmarker.Database.MyDatabase;
 import com.example.mapwithmarker.Database.UserDao;
 import com.example.mapwithmarker.Utils.Animations;
 import com.example.mapwithmarker.Utils.CityCoordinatesUtils;
+import com.example.mapwithmarker.Utils.DirectionsEstimation;
 import com.example.mapwithmarker.Utils.Steps;
 import com.example.mapwithmarker.Utils.StringParser;
 import com.example.mapwithmarker.Utils.TripStepView;
@@ -109,7 +115,8 @@ public class MapsMarkerActivity extends AppCompatActivity
 
                 TripStepView tsv = new TripStepView(MapsMarkerActivity.this, binding, steps, marker);
                 tsv.setStepText(address);
-                binding.stepsListLinearLayout.addView(tsv, binding.stepsListLinearLayout.getChildCount()-1);
+                addViewToList(tsv);
+                // binding.stepsListLinearLayout.addView(tsv, binding.stepsListLinearLayout.getChildCount()-1);
 
                 // add the Step to the dest list
                 steps.addStep(tsv);
@@ -170,7 +177,8 @@ public class MapsMarkerActivity extends AppCompatActivity
 
                 TripStepView tsv = new TripStepView(MapsMarkerActivity.this, binding, steps, marker);
                 tsv.setStepText(s);
-                binding.stepsListLinearLayout.addView(tsv, binding.stepsListLinearLayout.getChildCount()-1);
+                addViewToList(tsv);
+//                binding.stepsListLinearLayout.addView(tsv, binding.stepsListLinearLayout.getChildCount()-1);
 
                 // add the Step to the dest list
                 steps.addStep(tsv);
@@ -183,5 +191,71 @@ public class MapsMarkerActivity extends AppCompatActivity
         intent.putExtra("ADDRESS", address);
         intent.putExtra("LatLng", coords);
         startActivity(intent);
+    }
+
+    public void addViewToList(TripStepView view) {
+        int childCount = binding.stepsListLinearLayout.getChildCount();
+        int rank = childCount-1;
+        if (rank > 0) {
+            LatLng pos1 = view.getMarker().getPosition();
+            LatLng pos2 = ((TripStepView)(binding.stepsListLinearLayout.getChildAt(rank-1))).getMarker().getPosition();
+            String time = DirectionsEstimation.estimateTravelTime(pos1, pos2);
+            binding.stepsListLinearLayout.addView(view, childCount-1);
+            view.getVerticalLinearLayout().addView(createLayout(this, time), 0);
+        } else {
+            binding.stepsListLinearLayout.addView(view, childCount-1);
+        }
+    }
+
+    public static LinearLayout createLayout(Context context, String time) {
+        // Create a new LinearLayout
+        LinearLayout linearLayout = new LinearLayout(context);
+        linearLayout.setLayoutParams(new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.WRAP_CONTENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT));
+        linearLayout.setGravity(Gravity.CENTER);
+        linearLayout.setOrientation(LinearLayout.HORIZONTAL);
+
+        // Create the downward arrow TextView
+        TextView arrowTextView = new TextView(context);
+        arrowTextView.setLayoutParams(new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.WRAP_CONTENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT));
+        arrowTextView.setTextSize(45);
+        arrowTextView.setTextColor(Color.BLACK);
+        arrowTextView.setText("↓");
+        linearLayout.addView(arrowTextView);
+
+        // Create the time TextView
+        TextView timeTextView = new TextView(context);
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.WRAP_CONTENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT);
+        layoutParams.setMargins(0, 5, 0, 0);
+        timeTextView.setLayoutParams(layoutParams);
+        timeTextView.setTextSize(20);
+        timeTextView.setTextColor(Color.BLACK);
+        timeTextView.setText(time);
+        linearLayout.addView(timeTextView);
+
+        return linearLayout;
+    }
+
+    public void updateTimes() {
+        if (steps.getSteps().size() == 0) return;
+        if (steps.getSteps().get(0).getVerticalLinearLayout().getChildCount() != 1) {
+            steps.getSteps().get(0).getVerticalLinearLayout().removeViewAt(0);
+        }
+        for (int i = 1; i < steps.getSize(); i++) {
+            TripStepView step = steps.getSteps().get(i);
+            // If travel time does not exist yet, fin and add it
+            if (step.getVerticalLinearLayout().getChildCount() != 1) {
+                step.getVerticalLinearLayout().removeViewAt(0);
+            }
+            LatLng pos1 = step.getMarker().getPosition();
+            LatLng pos2 = (steps.getSteps().get(i-1)).getMarker().getPosition();
+            String time = DirectionsEstimation.estimateTravelTime(pos1, pos2);
+            step.getVerticalLinearLayout().addView(createLayout(this, time), 0);
+        }
     }
 }

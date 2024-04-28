@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.GridLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -108,15 +109,15 @@ public class Landing extends AppCompatActivity {
             }
         });
 
-        Log.d("10293847", "ASFDADF");
         createRoadTripList();
     }
 
     private void createRoadTripList() {
         roadTripViews = StringParser.parseDBtoRoadTrips(userDao.getRoadTrips(username), this);
-        LinearLayout layout = findViewById(R.id.roadTrip_list_linearLayout);
+        GridLayout layout = findViewById(R.id.roadTrip_list_linearLayout);
+        layout.setOrientation(GridLayout.HORIZONTAL);
         for (RoadTripView rt : roadTripViews) {
-            layout.addView(rt, 0);
+            layout.addView(rt, 1);
         }
     }
 

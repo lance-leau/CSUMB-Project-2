@@ -51,12 +51,12 @@ public class RoadTripView extends LinearLayout {
     }
 
     public void setStepCount(int i) {
-        this.textViewStepCount.setText("Step nb : " + i);
+        this.textViewStepCount.setText(i + " stp");
     }
 
     public void setTittle(String tittle) {
         String[] s = tittle.split(",");
-        this.textViewTittle.setText(s[0] + " --> " + s[s.length-1]);
+        this.textViewTittle.setText(s[0]); //  + " --> " + s[s.length-1]
     }
 
     public void deleteFromParent() {

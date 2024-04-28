@@ -25,6 +25,7 @@ public class TripStepView extends LinearLayout {
     private Steps steps;
     private ActivityMapsBinding bd;
     private Context context;
+    private LinearLayout verticalLinearLayout;
 
     public TripStepView(Context context, ActivityMapsBinding bd, Steps steps, Marker marker) {
         super(context);
@@ -44,6 +45,7 @@ public class TripStepView extends LinearLayout {
         removeButton = findViewById(R.id.btn_remove);
         moveUpButton = findViewById(R.id.btn_move_up);
         moveDownButton = findViewById(R.id.btn_move_down);
+        verticalLinearLayout = findViewById(R.id.verticalLayout);
 
         // Set onClickListeners
 
@@ -61,6 +63,7 @@ public class TripStepView extends LinearLayout {
                 bd.stepsListLinearLayout.removeViewAt(rank);
                 steps.removeStep(rank);
                 marker.remove();
+                ((MapsMarkerActivity)context).updateTimes();
             }
         });
 
@@ -77,6 +80,7 @@ public class TripStepView extends LinearLayout {
                     steps.getSteps().remove(temp);
                     steps.getSteps().add(rank, temp2);
                     Log.d("debug", steps.toString());
+                    ((MapsMarkerActivity)context).updateTimes();
                 }
             }
         });
@@ -93,7 +97,7 @@ public class TripStepView extends LinearLayout {
                     bd.stepsListLinearLayout.removeViewAt(rank+2);
                     steps.getSteps().remove(temp);
                     steps.getSteps().add(rank, temp2);
-                    Log.d("debug", steps.toString());
+                    ((MapsMarkerActivity)context).updateTimes();
                 }
             }
         });
@@ -105,10 +109,18 @@ public class TripStepView extends LinearLayout {
     }
 
     public int getRank() {
-        return steps.getSteps().indexOf(this);
+        return steps.getSteps().indexOf(TripStepView.this);
     }
 
     public void setRank(int rank) {
         this.rank = rank;
+    }
+
+    public Marker getMarker() {
+        return marker;
+    }
+
+    public LinearLayout getVerticalLinearLayout() {
+        return verticalLinearLayout;
     }
 }
