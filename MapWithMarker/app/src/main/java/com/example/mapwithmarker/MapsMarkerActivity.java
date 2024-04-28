@@ -3,12 +3,16 @@ package com.example.mapwithmarker;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.room.Room;
 
+import com.example.mapwithmarker.Database.MyDatabase;
+import com.example.mapwithmarker.Database.UserDao;
 import com.example.mapwithmarker.Utils.Animations;
 import com.example.mapwithmarker.Utils.CityCoordinatesUtils;
 import com.example.mapwithmarker.Utils.Steps;
@@ -40,10 +44,20 @@ public class MapsMarkerActivity extends AppCompatActivity
     static final int MENU_CLOSED_SIZE = 250;
     static final int MENU_OPENED_SIZE = 1500;
 
+    String username;
+
+    MyDatabase myDb;
+    UserDao userDao;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         steps = new Steps();
+
+        myDb = Room.databaseBuilder(this, MyDatabase.class, "usertable").allowMainThreadQueries()
+                .fallbackToDestructiveMigration().build();
+
+        userDao= myDb.getDao();
 
         binding = ActivityMapsBinding.inflate(getLayoutInflater());
 
@@ -61,6 +75,8 @@ public class MapsMarkerActivity extends AppCompatActivity
         // Get the SupportMapFragment and request notification when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+        this.username = getIntent().getStringExtra("USERNAME");
 
         binding.PlanTripTitle.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -80,7 +96,7 @@ public class MapsMarkerActivity extends AppCompatActivity
             @Override
             public void onClick(View v) {
                 // get the address
-                String address = StringParser.parseString(binding.AddNewDestinationEditText.getText().toString());
+                String address = StringParser.pascalCase(binding.AddNewDestinationEditText.getText().toString());
 
                 // create the new marker
                 LatLng coordinates = CityCoordinatesUtils.getCoordinates(MapsMarkerActivity.this, address);
@@ -110,6 +126,31 @@ public class MapsMarkerActivity extends AppCompatActivity
 
                 // center on new marker
                 GM.moveCamera(CameraUpdateFactory.newLatLng(coordinates));
+            }
+        });
+
+        binding.backToLandingButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String s = userDao.getRoadTrips(username);
+                if (s.equals("0")){
+                    userDao.updateCities(username, "1," + StringParser.parseDestinations(steps));
+                } else {
+                    Log.d("a", "1");
+                    String[] parts = s.split(",", 2);
+                    Log.d("a", "2");
+                    String tripNum = parts[0];
+                    Log.d("a", "3");
+                    String restOfString = parts[1];
+                    Log.d("a", "4");
+                    String parsedString = (Integer.parseInt(tripNum) + 1) + "," + restOfString + "," + StringParser.parseDestinations(steps);
+                    Log.d("a", parsedString);
+                    userDao.updateCities(username, parsedString);
+                    Log.d("a", "6");
+                }
+                Intent intent = new Intent(MapsMarkerActivity.this, Landing.class);
+                intent.putExtra("USERNAME", username);
+                startActivity(intent);
             }
         });
     }

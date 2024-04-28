@@ -9,9 +9,17 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.example.mapwithmarker.Database.MyDatabase;
 import com.example.mapwithmarker.Database.UserDao;
+import com.example.mapwithmarker.Utils.RoadTripView;
+import com.example.mapwithmarker.Utils.RoadTrips;
+import com.example.mapwithmarker.Utils.StringParser;
+import com.example.mapwithmarker.databinding.RoadTripViewBinding;
+
+import java.util.ArrayList;
 
 
 public class Landing extends AppCompatActivity {
@@ -23,6 +31,7 @@ public class Landing extends AppCompatActivity {
     MyDatabase myDb;
     UserDao userDao;
     boolean IS_ADMIN = false;
+    RoadTrips roadTrips;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +41,7 @@ public class Landing extends AppCompatActivity {
         setContentView(R.layout.activity_landing);
 
         IS_ADMIN = getIntent().getBooleanExtra("IS_USER_ADMIN", false);
+        username = getIntent().getStringExtra("USERNAME");
 
         signOut = findViewById(R.id.signOutButton);
         btnAdmin = findViewById(R.id.admin_button);
@@ -72,6 +82,7 @@ public class Landing extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(Landing.this, MapsMarkerActivity.class);
+                intent.putExtra("USERNAME", getIntent().getStringExtra("USERNAME"));
                 startActivity(intent);
             }
         });
@@ -102,5 +113,16 @@ public class Landing extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        Log.d("10293847", "ASFDADF");
+        createRoadTripList();
+    }
+
+    private void createRoadTripList() {
+        ArrayList<RoadTripView> roadTripViews = StringParser.parseDBtoRoadTrips(userDao.getRoadTrips(username), this);
+        LinearLayout layout = findViewById(R.id.roadTrip_list_linearLayout);
+        for (RoadTripView rt : roadTripViews) {
+            layout.addView(rt);
+        }
     }
 }

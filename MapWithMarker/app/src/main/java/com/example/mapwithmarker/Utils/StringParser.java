@@ -1,7 +1,12 @@
 package com.example.mapwithmarker.Utils;
 
+import android.content.Context;
+import android.util.Log;
+
+import java.util.ArrayList;
+
 public class StringParser {
-    public static String parseString(String input) {
+    public static String pascalCase(String input) {
         String[] words = input.split(" ");
 
         StringBuilder result = new StringBuilder();
@@ -13,4 +18,56 @@ public class StringParser {
         return result.toString().trim();
     }
 
+    public static String parseDestinations(Steps steps) {
+        StringBuilder ret = new StringBuilder("" + steps.getSteps().size());
+        for (TripStepView tsv : steps.getSteps()) {
+            ret.append(",").append(tsv.stepTextView.getText().toString());
+        }
+        return ret.toString();
+    }
+
+    public static ArrayList<RoadTripView> parseDBtoRoadTrips(String s, Context context) {
+        ArrayList<Integer> sizes = new ArrayList<>();
+        ArrayList<String> roadTrips = new ArrayList<>();
+        ArrayList<String> roadTripSteps = new ArrayList<>();
+
+        if (s.equals("0")) {
+            return new ArrayList<RoadTripView>();
+        }
+
+        String[] parts = s.split(",");
+        int tripCount = Integer.parseInt(parts[0]);
+        int currentIndex = 1;
+        for (int i = 0; i < tripCount; i++) {
+            Log.d("LANCELOT EST UN CONARD", s + "with i = " + i);
+            int tripSize = Integer.parseInt(parts[currentIndex]);
+            sizes.add(tripSize);
+            currentIndex++;
+
+            StringBuilder tripStops = new StringBuilder();
+            StringBuilder tripSteps = new StringBuilder();
+            for (int j = 0; j < tripSize; j++) {
+                tripStops.append(parts[currentIndex]);
+                tripSteps.append(parts[currentIndex]);
+                currentIndex++;
+                if (j < tripSize - 1) {
+                    tripStops.append(", ");
+                    tripSteps.append(",");
+                }
+            }
+            roadTrips.add(tripStops.toString());
+            roadTripSteps.add(tripSteps.toString());
+        }
+
+        ArrayList<RoadTripView> rt = new ArrayList<RoadTripView>();
+
+        for (int i = 0; i < roadTrips.size(); i++) {
+            RoadTripView roadTripView = new RoadTripView(context);
+            roadTripView.setTittle(roadTrips.get(i));
+            roadTripView.setStepCount(sizes.get(i));
+            rt.add(roadTripView);
+        }
+
+        return rt;
+    }
 }

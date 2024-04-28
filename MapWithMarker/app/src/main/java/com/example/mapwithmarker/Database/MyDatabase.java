@@ -28,7 +28,7 @@ public abstract class MyDatabase extends RoomDatabase {
             public void run() {
                 UserDao userDao = getDao();
                 if (!userDao.is_taken("admin")) { // Check if "admin" user already exists
-                    UserTable adminUser = new UserTable(0, "admin", "admin", true,"None");//TODO
+                    UserTable adminUser = new UserTable(0, "admin", "admin", true,"0");//TODO
                     userDao.insertUser(adminUser);
                 }
             }

@@ -33,4 +33,9 @@ public interface UserDao {
     @Query("UPDATE UserTable SET cities=:newCities WHERE username=:username")
     void updateCities(String username, String newCities);
 
+    @Query("SELECT cities FROM UserTable WHERE userName=:username")
+    public String getRoadTrips(String username);
+
+
+
 }

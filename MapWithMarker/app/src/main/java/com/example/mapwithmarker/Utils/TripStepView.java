@@ -17,7 +17,7 @@ import com.google.android.gms.maps.model.Marker;
 public class TripStepView extends LinearLayout {
 
     private Marker marker;
-    public TextView stepTextView;
+    public TextView  stepTextView;
     private Button removeButton;
     private Button moveUpButton;
     private Button moveDownButton;
