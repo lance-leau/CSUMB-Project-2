@@ -16,7 +16,7 @@ import com.example.mapwithmarker.Database.UserDao;
 
 public class Landing extends AppCompatActivity {
 
-    Button signOut, btnAdmin, plusButton, btnLogoSettings, btnSettings, btnTraining;
+    Button signOut, btnAdmin, plusButton, btnLogoSettings, btnSettings;
 
     String username;
     String password;
@@ -33,15 +33,6 @@ public class Landing extends AppCompatActivity {
 
         IS_ADMIN = getIntent().getBooleanExtra("IS_USER_ADMIN", false);
 
-        //To be deleted
-        btnTraining = findViewById(R.id.training);
-        btnTraining.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(Landing.this, About.class);
-                startActivity(intent);
-            }
-        });
 
         signOut = findViewById(R.id.signOutButton);
         btnAdmin = findViewById(R.id.admin_button);

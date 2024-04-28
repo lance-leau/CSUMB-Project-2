@@ -25,7 +25,7 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="${MAPS_API_KEY}" />
 
-        <activity android:name=".MapsMarkerActivity" /> <!-- <activity -->
+         <!-- <activity -->
         <!-- android:name=".MapsMarkerActivity" -->
         <!-- android:label="@string/title_activity_maps" -->
         <!-- android:exported="true"> -->
@@ -44,10 +44,11 @@
             </intent-filter>
         </activity>
         <activity android:name=".ActivityLogin"/>
-        <activity android:name=".Landing"/>
         <activity android:name=".ActivityRegister"/>
+        <activity android:name=".Landing"/>
         <activity android:name=".ActivitySettings"/>
         <activity android:name=".ActivityAdmin" />
+        <activity android:name=".MapsMarkerActivity"/>
     </application>
 
 </manifest>
