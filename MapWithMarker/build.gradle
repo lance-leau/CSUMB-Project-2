@@ -5,8 +5,10 @@ buildscript {
         agp_version = '8.1.1'
     }
     repositories {
-        mavenCentral()
         google()
+        mavenCentral()
+        maven { url 'https://jitpack.io' }
+
     }
     dependencies {
         classpath "com.android.tools.build:gradle:$agp_version"
@@ -19,8 +21,9 @@ buildscript {
 
 allprojects {
     repositories {
-        mavenCentral()
         google()
+        mavenCentral()
+
     }
 }
 
