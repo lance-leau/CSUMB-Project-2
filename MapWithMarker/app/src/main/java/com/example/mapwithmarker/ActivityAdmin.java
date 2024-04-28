@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
@@ -28,7 +29,6 @@ public class ActivityAdmin extends AppCompatActivity {
     private TableLayout userListLayout;
     private MyDatabase myDb;
     private UserDao userDao;
-
     private Button btnBack;
 
     @Override
@@ -54,6 +54,7 @@ public class ActivityAdmin extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(ActivityAdmin.this, ActivitySettings.class);
+                intent.putExtra("USERNAME", getIntent().getStringExtra("USERNAME"));
                 startActivity(intent);
             }
         });

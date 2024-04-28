@@ -36,6 +36,9 @@ public interface UserDao {
     @Query("SELECT cities FROM UserTable WHERE userName=:username")
     public String getRoadTrips(String username);
 
+    @Query("SELECT password FROM UserTable WHERE userName=:username")
+    public String retrievePwd(String username);
+
 
 
 }

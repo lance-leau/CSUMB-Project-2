@@ -133,20 +133,17 @@ public class MapsMarkerActivity extends AppCompatActivity
             @Override
             public void onClick(View v) {
                 String s = userDao.getRoadTrips(username);
-                if (s.equals("0")){
-                    userDao.updateCities(username, "1," + StringParser.parseDestinations(steps));
-                } else {
-                    Log.d("a", "1");
-                    String[] parts = s.split(",", 2);
-                    Log.d("a", "2");
-                    String tripNum = parts[0];
-                    Log.d("a", "3");
-                    String restOfString = parts[1];
-                    Log.d("a", "4");
-                    String parsedString = (Integer.parseInt(tripNum) + 1) + "," + restOfString + "," + StringParser.parseDestinations(steps);
-                    Log.d("a", parsedString);
-                    userDao.updateCities(username, parsedString);
-                    Log.d("a", "6");
+                String parsedSteps = StringParser.parseDestinations(steps);
+                if (!parsedSteps.equals("0")) {
+                    if (s.equals("0")) {
+                        userDao.updateCities(username, "1," + parsedSteps);
+                    } else {
+                        String[] parts = s.split(",", 2);
+                        String tripNum = parts[0];
+                        String restOfString = parts[1];
+                        String parsedString = (Integer.parseInt(tripNum) + 1) + "," + restOfString + "," + parsedSteps;
+                        userDao.updateCities(username, parsedString);
+                    }
                 }
                 Intent intent = new Intent(MapsMarkerActivity.this, Landing.class);
                 intent.putExtra("USERNAME", username);
@@ -158,10 +155,27 @@ public class MapsMarkerActivity extends AppCompatActivity
     public void onMapReady(GoogleMap googleMap) {
         GM = googleMap;
         LatLng france = new LatLng(46.2000, 1.8000);
-        // [START_EXCLUDE silent]
 
         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(france, (float)(5.3)));
-        // [END_EXCLUDE]
+
+        String parsedString = getIntent().getStringExtra("TRIP");
+        if (parsedString != null) {
+            for (String s : parsedString.split(",")) {
+                LatLng coordinates = CityCoordinatesUtils.getCoordinates(MapsMarkerActivity.this, s);
+                if (coordinates == null){
+                    Toast.makeText(MapsMarkerActivity.this, "address is invalid", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                Marker marker = GM.addMarker(new MarkerOptions().position(coordinates).title(s));
+
+                TripStepView tsv = new TripStepView(MapsMarkerActivity.this, binding, steps, marker);
+                tsv.setStepText(s);
+                binding.stepsListLinearLayout.addView(tsv, binding.stepsListLinearLayout.getChildCount()-1);
+
+                // add the Step to the dest list
+                steps.addStep(tsv);
+            }
+        }
     }
 
     public void goToAbout(String address, LatLng coords) {
@@ -171,13 +185,3 @@ public class MapsMarkerActivity extends AppCompatActivity
         startActivity(intent);
     }
 }
-
-
-// TODO HOW TO ADD A MARKER :
-/*
-    LatLng sydney = new LatLng(-33.852, 151.211);
-googleMap.addMarker(new MarkerOptions()
-    .position(sydney)
-    .title("Marker in Sydney"));
-googleMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
- */

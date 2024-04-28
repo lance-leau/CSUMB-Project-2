@@ -19,6 +19,9 @@ public class StringParser {
     }
 
     public static String parseDestinations(Steps steps) {
+        if (steps.getSteps().size() == 0) {
+            return "0";
+        }
         StringBuilder ret = new StringBuilder("" + steps.getSteps().size());
         for (TripStepView tsv : steps.getSteps()) {
             ret.append(",").append(tsv.stepTextView.getText().toString());
@@ -39,7 +42,6 @@ public class StringParser {
         int tripCount = Integer.parseInt(parts[0]);
         int currentIndex = 1;
         for (int i = 0; i < tripCount; i++) {
-            Log.d("LANCELOT EST UN CONARD", s + "with i = " + i);
             int tripSize = Integer.parseInt(parts[currentIndex]);
             sizes.add(tripSize);
             currentIndex++;
@@ -62,12 +64,30 @@ public class StringParser {
         ArrayList<RoadTripView> rt = new ArrayList<RoadTripView>();
 
         for (int i = 0; i < roadTrips.size(); i++) {
-            RoadTripView roadTripView = new RoadTripView(context);
+            RoadTripView roadTripView = new RoadTripView(context, roadTripSteps.get(i));
             roadTripView.setTittle(roadTrips.get(i));
             roadTripView.setStepCount(sizes.get(i));
             rt.add(roadTripView);
         }
 
         return rt;
+    }
+
+    public static String RoadTripArrToStr(ArrayList<RoadTripView> arr) {
+        String ret = "" + arr.size();
+        for (RoadTripView r : arr) {
+            ret += "," + (r.getTrip().split(",").length) + "," + r.getTrip();
+        }
+        Log.d("parsed String", ret);
+        return ret;
+    }
+
+    public static String RoadTripArrToStr(ArrayList<RoadTripView> arr, RoadTripView exclude) {
+        String ret = "" + (arr.size() -1);
+        for (RoadTripView r : arr) {
+            if (!r.equals(exclude)) ret += "," + (r.getTrip().split(",").length) + "," + r.getTrip();
+        }
+        Log.d("parsed String", ret);
+        return ret;
     }
 }

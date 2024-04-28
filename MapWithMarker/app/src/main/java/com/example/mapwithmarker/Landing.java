@@ -15,7 +15,6 @@ import android.widget.TextView;
 import com.example.mapwithmarker.Database.MyDatabase;
 import com.example.mapwithmarker.Database.UserDao;
 import com.example.mapwithmarker.Utils.RoadTripView;
-import com.example.mapwithmarker.Utils.RoadTrips;
 import com.example.mapwithmarker.Utils.StringParser;
 import com.example.mapwithmarker.databinding.RoadTripViewBinding;
 
@@ -27,16 +26,13 @@ public class Landing extends AppCompatActivity {
     Button signOut, btnAdmin, plusButton, btnLogoSettings, btnSettings;
 
     String username;
-    String password;
     MyDatabase myDb;
     UserDao userDao;
     boolean IS_ADMIN = false;
-    RoadTrips roadTrips;
+    ArrayList<RoadTripView> roadTripViews;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_landing);
 
@@ -108,8 +104,6 @@ public class Landing extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(Landing.this, ActivitySettings.class);
                 intent.putExtra("USERNAME", getIntent().getStringExtra("USERNAME"));
-                intent.putExtra("PASSWORD", getIntent().getStringExtra("PASSWORD"));
-                intent.putExtra("ISADMIN", getIntent().getBooleanExtra("ISADMIN", false));
                 startActivity(intent);
             }
         });
@@ -119,10 +113,18 @@ public class Landing extends AppCompatActivity {
     }
 
     private void createRoadTripList() {
-        ArrayList<RoadTripView> roadTripViews = StringParser.parseDBtoRoadTrips(userDao.getRoadTrips(username), this);
+        roadTripViews = StringParser.parseDBtoRoadTrips(userDao.getRoadTrips(username), this);
         LinearLayout layout = findViewById(R.id.roadTrip_list_linearLayout);
         for (RoadTripView rt : roadTripViews) {
-            layout.addView(rt);
+            layout.addView(rt, 0);
         }
+    }
+
+    public void editActivity(RoadTripView roadTripView) {
+        Intent intent = new Intent(this, MapsMarkerActivity.class);
+        intent.putExtra("TRIP", roadTripView.getTrip());
+        intent.putExtra("USERNAME", username);
+        userDao.updateCities(username, StringParser.RoadTripArrToStr(roadTripViews, roadTripView));
+        startActivity(intent);
     }
 }

@@ -55,7 +55,6 @@ public class ActivityLogin  extends AppCompatActivity {
 
                 if(userDao.isAdminUser(etUser.getText().toString())) {
                     Toast.makeText(ActivityLogin.this, "An admin has login", Toast.LENGTH_SHORT).show();
-                    userDao.updateCities(etUser.getText().toString(),"1 1 Paris, Lyon, Toulouse");
                 }
                 if(userDao.login(etUser.getText().toString(),etPwd.getText().toString())){
                     Log.d("WHY","2");
