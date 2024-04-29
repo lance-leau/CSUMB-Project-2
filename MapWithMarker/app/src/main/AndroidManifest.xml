@@ -52,6 +52,7 @@
         <activity android:name=".ActivitySettings"/>
         <activity android:name=".ActivityAdmin" />
         <activity android:name=".MapsMarkerActivity"/>
+        <activity android:name=".Temporary"/>
     </application>
 
 </manifest>
