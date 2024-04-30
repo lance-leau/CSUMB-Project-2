@@ -18,12 +18,9 @@ import java.io.InputStream;
 import java.net.URL;
 
 public class Temporary extends AppCompatActivity {
-
     MyDatabase myDb;
     ImageDao imageDao;
-
     ImageView imageView;
-
     public void onCreate(@Nullable Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_temporary);

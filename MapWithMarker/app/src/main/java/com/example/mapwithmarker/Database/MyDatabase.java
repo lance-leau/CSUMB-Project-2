@@ -53,8 +53,8 @@ public abstract class MyDatabase extends RoomDatabase {
             @Override
             public void run() {
                 ImageDao imageDao = getImageDao();
-                if(!imageDao.is_taken("Lyon")){
-                    ImageTable imageTable = new ImageTable(0,"Lyon","https://media.cntraveller.com/photos/653783ab9da3a22eb97452f9/4:3/w_4608,h_3456,c_limit/Cheapest_time_to_go_to_Paris_October23_Getty_Images.jpg" );
+                if(!imageDao.is_taken("Rome")){
+                    ImageTable imageTable = new ImageTable(0,"Rome","https://i.pinimg.com/736x/52/7f/20/527f20de41723fb99114c045f211a877.jpg~https://www.my-webspot.com/upload/blog/195/article/_470x410_0038_the-best-activities-in-paris-and-the-attractions-to-enjoy.jpg~https://a.cdn-hotels.com/gdcs/production107/d625/d22d2448-0238-4573-b055-6b079e972dbb.jpg?impolicy=fcrop&w=800&h=533&q=medium" );
                     imageDao.insertCity(imageTable);
                 }
 

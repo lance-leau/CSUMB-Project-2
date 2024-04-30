@@ -2,11 +2,15 @@ package com.example.mapwithmarker;
 
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.mapwithmarker.Database.ImageDao;
+import com.example.mapwithmarker.Database.MyDatabase;
 import com.squareup.picasso.Picasso;
 import com.example.mapwithmarker.PixelBay.PixabayApiService;
 import com.example.mapwithmarker.PixelBay.PixabayImage;
@@ -18,10 +22,12 @@ import android.os.Bundle;
 import android.widget.ImageView;
 
 import android.os.Bundle;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.room.Room;
 
 import java.util.List;
 
@@ -33,21 +39,30 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 
 public class About extends AppCompatActivity {
-    private ImageView imageView0, imageView1, imageView2, imageView3, imageView4, imageView5, imageView6;
+    String city;
+    MyDatabase myDb;
+    ImageDao imageDao;
+    ImageView imageView;
+    String username;
+    private final String[] subjects = {"night life", "restaurant", "monument", "activity"};
+    private ImageView imageView1, imageView2, imageView3;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_about);
 
+        username = getIntent().getStringExtra("USERNAME");
+        city = getIntent().getStringExtra("ADDRESS");
+
+        myDb = Room.databaseBuilder(this, MyDatabase.class, "usertable").allowMainThreadQueries()
+                .fallbackToDestructiveMigration().build();
+        imageDao= myDb.getImageDao();
+
         // Initialize ImageViews
-        imageView0 = findViewById(R.id.imageView0);
         imageView1 = findViewById(R.id.imageView1);
         imageView2 = findViewById(R.id.imageView2);
         imageView3 = findViewById(R.id.imageView3);
-        //imageView4 = findViewById(R.id.imageView4);
-        //imageView5 = findViewById(R.id.imageView5);
-        //imageView6 = findViewById(R.id.imageView6);
 
         // Initialize Retrofit
         Retrofit retrofit = new Retrofit.Builder()
@@ -58,12 +73,25 @@ public class About extends AppCompatActivity {
         // Create an instance of the Retrofit interface
         PixabayApiService apiService = retrofit.create(PixabayApiService.class);
 
-        // Make API calls to search for photos based on keywords and load them into ImageViews
-        loadImages(apiService, "Paris at  night", imageView0);
-        loadImages(apiService, "paris", imageView1);
-        loadImages(apiService, "paris restaurant", imageView2);
-        loadImages(apiService, "Paris activity", imageView3);
+        int sub1 = 0;
+        int sub2 = 1;
+        int sub3 = 2;
 
+        ((TextView)findViewById(R.id.sub1_tag)).setText(subjects[sub1]);
+        ((TextView)findViewById(R.id.sub2_tag)).setText(subjects[sub2]);
+        ((TextView)findViewById(R.id.sub3_tag)).setText(subjects[sub3]);
+
+        if (!imageDao.is_taken(city)) {
+            // Make API calls to search for photos based on keywords and load them into ImageViews
+            loadImages(apiService, city + sub1, imageView1);
+            loadImages(apiService, city + sub2, imageView2);
+        } else {
+            // vue de nuit | resto | monument
+            String[] urls = imageDao.getImages(city).split("~");
+            Picasso.get().load(urls[sub1]).into(imageView1);
+            Picasso.get().load(urls[sub2]).into(imageView2);
+            Picasso.get().load(urls[sub3]).into(imageView3);
+        }
     }
 
     private void loadImages(PixabayApiService apiService, String keyword, ImageView imageView) {
@@ -96,5 +124,15 @@ public class About extends AppCompatActivity {
                 Toast.makeText(About.this, "On failure for " + keyword, Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    private int subToInt(String s) {
+        if (s.equals("vie de nuit")) {
+            return 0;
+        } else if (s.equals("restaurant")) {
+            return 1;
+        } else {
+            return 2;
+        }
     }
 }

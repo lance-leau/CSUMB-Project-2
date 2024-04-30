@@ -189,7 +189,6 @@ public class MapsMarkerActivity extends AppCompatActivity
     public void goToAbout(String address, LatLng coords) {
         Intent intent = new Intent(MapsMarkerActivity.this, About.class);
         intent.putExtra("ADDRESS", address);
-        intent.putExtra("LatLng", coords);
         startActivity(intent);
     }
 
