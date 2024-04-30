@@ -16,6 +16,8 @@ import androidx.core.app.TaskStackBuilder;
 import androidx.room.Room;
 
 import com.example.mapwithmarker.Database.MyDatabase;
+import com.example.mapwithmarker.Database.ReviewDao;
+import com.example.mapwithmarker.Database.ReviewTable;
 import com.example.mapwithmarker.Database.UserTable;
 import com.example.mapwithmarker.Database.UserDao;
 import com.example.mapwithmarker.databinding.ActivityRegisterBinding;
@@ -27,6 +29,8 @@ public class ActivityRegister extends AppCompatActivity {
     ActivityRegisterBinding binding;
     MyDatabase myDb;
     UserDao userDao;
+
+    ReviewDao reviewDao;
 
     public static boolean isAllowed = false;
 
@@ -50,6 +54,7 @@ public class ActivityRegister extends AppCompatActivity {
                         .fallbackToDestructiveMigration().build();
 
         userDao= myDb.getDao();
+        reviewDao = myDb.getReviewDao();
         myDb.addAdminUser();
 
         btnRegister.setOnClickListener(new View.OnClickListener() {
@@ -65,6 +70,10 @@ public class ActivityRegister extends AppCompatActivity {
                     else {
                         UserTable userTable = new UserTable(0, enteredUsername, etPwd.getText().toString(), false,"0");
                         userDao.insertUser(userTable);
+
+                        ReviewTable reviewTable = new ReviewTable(0, enteredUsername, "TESTING");
+                        reviewDao.insertReview(reviewTable);
+
                         Toast.makeText(ActivityRegister.this, "Username added", Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(ActivityRegister.this, ActivityLogin.class);
                         startActivity(intent);

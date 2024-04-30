@@ -11,6 +11,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.mapwithmarker.Database.ImageDao;
 import com.example.mapwithmarker.Database.MyDatabase;
+import com.example.mapwithmarker.Database.ReviewDao;
+import com.example.mapwithmarker.Database.ReviewTable;
 import com.squareup.picasso.Picasso;
 import com.example.mapwithmarker.PixelBay.PixabayApiService;
 import com.example.mapwithmarker.PixelBay.PixabayImage;
@@ -19,6 +21,7 @@ import com.example.mapwithmarker.PixelBay.PixabayResponse;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.EditText;
 import android.widget.ImageView;
 
 import android.os.Bundle;
@@ -41,11 +44,15 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class About extends AppCompatActivity {
     String city;
     MyDatabase myDb;
+    ReviewDao reviewDao;
     ImageDao imageDao;
     ImageView imageView;
     String username;
     private final String[] subjects = {"night life", "restaurant", "monument", "activity"};
     private ImageView imageView1, imageView2, imageView3;
+    Button saveButton;
+    EditText editText;
+    TextView commentSection;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -58,11 +65,15 @@ public class About extends AppCompatActivity {
         myDb = Room.databaseBuilder(this, MyDatabase.class, "usertable").allowMainThreadQueries()
                 .fallbackToDestructiveMigration().build();
         imageDao= myDb.getImageDao();
+        reviewDao = myDb.getReviewDao();
 
         // Initialize ImageViews
         imageView1 = findViewById(R.id.imageView1);
         imageView2 = findViewById(R.id.imageView2);
         imageView3 = findViewById(R.id.imageView3);
+        saveButton = findViewById(R.id.saveButton);
+        editText = findViewById(R.id.comment_editText);
+        commentSection = findViewById(R.id.comment_section_textView);
 
         // Initialize Retrofit
         Retrofit retrofit = new Retrofit.Builder()
@@ -92,6 +103,24 @@ public class About extends AppCompatActivity {
             Picasso.get().load(urls[sub2]).into(imageView2);
             Picasso.get().load(urls[sub3]).into(imageView3);
         }
+
+        saveButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d("Text", editText.getText().toString());
+                int id = reviewDao.retrieveID(username);
+                ReviewTable r = new ReviewTable(id, username, editText.getText().toString());
+                reviewDao.updateReview(r);
+
+                List<ReviewTable> users = reviewDao.getReview();
+                StringBuilder s = new StringBuilder();
+                for (ReviewTable re: users){
+                    s.append(re.getReview()).append('\n');
+                }
+                commentSection.setText(s.toString());
+                //Toast.makeText(Temporary.this, reviewDao.getReview("Kim"), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private void loadImages(PixabayApiService apiService, String keyword, ImageView imageView) {

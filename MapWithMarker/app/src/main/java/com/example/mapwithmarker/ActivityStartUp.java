@@ -44,7 +44,7 @@ public class ActivityStartUp extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //Intent intent = new Intent(ActivityStartUp.this, ActivityRegister.class);
-                Intent intent = new Intent(ActivityStartUp.this, Temporary.class);
+                Intent intent = new Intent(ActivityStartUp.this, ActivityRegister.class);
                 startActivity(intent);
             }
         });

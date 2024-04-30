@@ -7,11 +7,12 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.room.migration.Migration;
 
-@Database(entities = {UserTable.class, ImageTable.class}, version = 4)
+@Database(entities = {UserTable.class, ImageTable.class, ReviewTable.class}, version = 5)
 
 public abstract class MyDatabase extends RoomDatabase {
     public abstract UserDao getDao();
     public abstract ImageDao getImageDao();
+    public abstract ReviewDao getReviewDao();
 
     private static volatile MyDatabase INSTANCE;
 
@@ -56,6 +57,22 @@ public abstract class MyDatabase extends RoomDatabase {
                 if(!imageDao.is_taken("Rome")){
                     ImageTable imageTable = new ImageTable(0,"Rome","https://i.pinimg.com/736x/52/7f/20/527f20de41723fb99114c045f211a877.jpg~https://www.my-webspot.com/upload/blog/195/article/_470x410_0038_the-best-activities-in-paris-and-the-attractions-to-enjoy.jpg~https://a.cdn-hotels.com/gdcs/production107/d625/d22d2448-0238-4573-b055-6b079e972dbb.jpg?impolicy=fcrop&w=800&h=533&q=medium" );
                     imageDao.insertCity(imageTable);
+                }
+
+            }
+        }).start();
+
+    }
+
+    public void addReview() {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+
+                ReviewDao reviewDao = getReviewDao();
+                if(!reviewDao.is_taken("Kim")) {
+                    ReviewTable reviewTable = new ReviewTable(0, "Kim", "avis");
+                    reviewDao.insertReview(reviewTable);
                 }
 
             }

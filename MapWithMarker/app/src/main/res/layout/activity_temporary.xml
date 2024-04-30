@@ -5,10 +5,23 @@
     android:layout_height="match_parent"
     tools:context=".Temporary">
 
-    <ImageView
+    <EditText
         android:id="@+id/imageViewCity"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:scaleType="centerCrop" />
+        android:scaleType="centerCrop"
+        android:hint="Enter a sentence"/>
+
+    <Button
+        android:id="@+id/saveButton"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:text="Save"/>
+
+    <TextView
+        android:id="@+id/showReview"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="150dp"/>
 
 </RelativeLayout>
