@@ -16,6 +16,8 @@ import androidx.core.app.TaskStackBuilder;
 import androidx.room.Room;
 
 import com.example.mapwithmarker.Database.MyDatabase;
+import com.example.mapwithmarker.Database.ReviewDao;
+import com.example.mapwithmarker.Database.ReviewTable;
 import com.example.mapwithmarker.Database.UserDao;
 import com.example.mapwithmarker.databinding.ActivityLoginBinding;
 import com.example.mapwithmarker.databinding.ActivityRegisterBinding;
@@ -31,6 +33,8 @@ public class ActivityLogin  extends AppCompatActivity {
     Button btnLogin;
     MyDatabase myDb;
     UserDao userDao;
+
+    ReviewDao reviewDao;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,15 +47,19 @@ public class ActivityLogin  extends AppCompatActivity {
         myDb = Room.databaseBuilder(this, MyDatabase.class, "usertable").allowMainThreadQueries()
                 .fallbackToDestructiveMigration().build();
         userDao = myDb.getDao();
-        Log.d("WHY","ARE U WITH ME");
+        reviewDao = myDb.getReviewDao();
+
         myDb.addAdminUser();
-        Log.d("WHY","Works ?");
+
 
 
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d("WHY","1");
+                if(!reviewDao.is_taken(etUser.getText().toString())) {
+                    ReviewTable reviewTable = new ReviewTable(0, etUser.getText().toString(), "TESTING");
+                    reviewDao.insertReview(reviewTable);
+                }
 
                 if(userDao.isAdminUser(etUser.getText().toString())) {
                     Toast.makeText(ActivityLogin.this, "An admin has login", Toast.LENGTH_SHORT).show();

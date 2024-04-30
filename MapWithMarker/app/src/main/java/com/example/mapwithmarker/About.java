@@ -53,6 +53,7 @@ public class About extends AppCompatActivity {
     Button saveButton;
     EditText editText;
     TextView commentSection;
+    int ID;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -60,12 +61,15 @@ public class About extends AppCompatActivity {
         setContentView(R.layout.activity_about);
 
         username = getIntent().getStringExtra("USERNAME");
+
         city = getIntent().getStringExtra("ADDRESS");
+
 
         myDb = Room.databaseBuilder(this, MyDatabase.class, "usertable").allowMainThreadQueries()
                 .fallbackToDestructiveMigration().build();
         imageDao= myDb.getImageDao();
         reviewDao = myDb.getReviewDao();
+
 
         // Initialize ImageViews
         imageView1 = findViewById(R.id.imageView1);
@@ -74,6 +78,16 @@ public class About extends AppCompatActivity {
         saveButton = findViewById(R.id.saveButton);
         editText = findViewById(R.id.comment_editText);
         commentSection = findViewById(R.id.comment_section_textView);
+
+
+
+        List<ReviewTable> users = reviewDao.getReview();
+        StringBuilder s = new StringBuilder();
+        for (ReviewTable r: users){
+            s.append(r.getReview()).append("\n");
+        }
+        Log.d("StringBuilder",s.toString());
+        commentSection.setText(s.toString());
 
         // Initialize Retrofit
         Retrofit retrofit = new Retrofit.Builder()
@@ -107,8 +121,10 @@ public class About extends AppCompatActivity {
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d("Text", editText.getText().toString());
+
                 int id = reviewDao.retrieveID(username);
+                Log.d("ID 123",username + " ");
+
                 ReviewTable r = new ReviewTable(id, username, editText.getText().toString());
                 reviewDao.updateReview(r);
 

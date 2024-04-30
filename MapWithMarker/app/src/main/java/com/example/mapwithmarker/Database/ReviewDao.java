@@ -19,7 +19,7 @@ public interface ReviewDao {
     public  boolean is_taken(String username);
 
     @Query("SELECT id FROM ReviewTable WHERE userName=:username")
-    public  int retrieveID(String username);
+    int retrieveID(String username);
 
     @Query("SELECT * FROM ReviewTable")
     List<ReviewTable> getReview();

@@ -54,7 +54,7 @@ public class Temporary extends AppCompatActivity {
             public void onClick(View v) {
                 Log.d("Text", editText.getText().toString());
                 int id = reviewDao.retrieveID("Kim");
-                ReviewTable r = new ReviewTable(id, "Kim", editText.getText().toString());
+                ReviewTable r = new ReviewTable( 0,"Kim", editText.getText().toString());
                 reviewDao.updateReview(r);
 
                 List<ReviewTable> users = reviewDao.getReview();
