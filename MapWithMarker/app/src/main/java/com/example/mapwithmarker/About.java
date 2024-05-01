@@ -33,6 +33,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.room.Room;
 
 import java.util.List;
+import java.util.Random;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -48,7 +49,7 @@ public class About extends AppCompatActivity {
     ImageDao imageDao;
     ImageView imageView;
     String username;
-    private final String[] subjects = {"night life", "restaurant", "monument", "activity"};
+    private final String[] subjects = {"restaurant", "museum", "monument", "cathedral", "activity"};
     private ImageView imageView1, imageView2, imageView3;
     Button saveButton;
     EditText editText;
@@ -78,13 +79,14 @@ public class About extends AppCompatActivity {
         saveButton = findViewById(R.id.saveButton);
         editText = findViewById(R.id.comment_editText);
         commentSection = findViewById(R.id.comment_section_textView);
+        ((TextView)(findViewById(R.id.AboutTittle_TextView))).setText("Welcome to " + city);
 
 
 
         List<ReviewTable> users = reviewDao.getReview();
         StringBuilder s = new StringBuilder();
         for (ReviewTable r: users){
-            s.append(r.getReview()).append("\n");
+            s.append(r.getUsername().toUpperCase()).append(" : ").append(r.getReview()).append("\n");
         }
         Log.d("StringBuilder",s.toString());
         commentSection.setText(s.toString());
@@ -98,18 +100,30 @@ public class About extends AppCompatActivity {
         // Create an instance of the Retrofit interface
         PixabayApiService apiService = retrofit.create(PixabayApiService.class);
 
-        int sub1 = 0;
-        int sub2 = 1;
-        int sub3 = 2;
+        Random random = new Random();
 
-        ((TextView)findViewById(R.id.sub1_tag)).setText(subjects[sub1]);
-        ((TextView)findViewById(R.id.sub2_tag)).setText(subjects[sub2]);
-        ((TextView)findViewById(R.id.sub3_tag)).setText(subjects[sub3]);
+        int sub1 = random.nextInt(5);
+        int sub2 = random.nextInt(5);
+        int sub3 = random.nextInt(5);
+
+        // Ensure no two variables have the same number
+        while (sub2 == sub1) {
+            sub2 = random.nextInt(5);
+        }
+
+        while (sub3 == sub1 || sub3 == sub2) {
+            sub3 = random.nextInt(5);
+        }
+
+        ((TextView)findViewById(R.id.sub1_tag)).setText(" " + subjects[sub1] + " ");
+        ((TextView)findViewById(R.id.sub2_tag)).setText(" " + subjects[sub2] + " ");
+        ((TextView)findViewById(R.id.sub3_tag)).setText(" " + subjects[sub3] + " ");
 
         if (!imageDao.is_taken(city)) {
             // Make API calls to search for photos based on keywords and load them into ImageViews
-            loadImages(apiService, city + sub1, imageView1);
-            loadImages(apiService, city + sub2, imageView2);
+            loadImages(apiService, sub1 + " in " + city, imageView1);
+            loadImages(apiService, sub2 + " in " + city, imageView2);
+            loadImages(apiService, sub3 + " in " + city, imageView3);
         } else {
             // vue de nuit | resto | monument
             String[] urls = imageDao.getImages(city).split("~");
@@ -131,10 +145,13 @@ public class About extends AppCompatActivity {
                 List<ReviewTable> users = reviewDao.getReview();
                 StringBuilder s = new StringBuilder();
                 for (ReviewTable re: users){
-                    s.append(re.getReview()).append('\n');
+                    String currUsername = re.getUsername();
+                    String comment = re.getReview();
+                    if (!comment.equals("")) {
+                        s.append(currUsername.toUpperCase()).append(" : ").append(comment).append('\n');
+                    }
                 }
                 commentSection.setText(s.toString());
-                //Toast.makeText(Temporary.this, reviewDao.getReview("Kim"), Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -169,15 +186,5 @@ public class About extends AppCompatActivity {
                 Toast.makeText(About.this, "On failure for " + keyword, Toast.LENGTH_SHORT).show();
             }
         });
-    }
-
-    private int subToInt(String s) {
-        if (s.equals("vie de nuit")) {
-            return 0;
-        } else if (s.equals("restaurant")) {
-            return 1;
-        } else {
-            return 2;
-        }
     }
 }

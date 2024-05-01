@@ -57,7 +57,7 @@ public class ActivityLogin  extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(!reviewDao.is_taken(etUser.getText().toString())) {
-                    ReviewTable reviewTable = new ReviewTable(0, etUser.getText().toString(), "TESTING");
+                    ReviewTable reviewTable = new ReviewTable(0, etUser.getText().toString(), "");
                     reviewDao.insertReview(reviewTable);
                 }
 

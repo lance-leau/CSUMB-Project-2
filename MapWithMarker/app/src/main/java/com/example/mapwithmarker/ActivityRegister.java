@@ -71,7 +71,7 @@ public class ActivityRegister extends AppCompatActivity {
                         UserTable userTable = new UserTable(0, enteredUsername, etPwd.getText().toString(), false,"0");
                         userDao.insertUser(userTable);
 
-                        ReviewTable reviewTable = new ReviewTable(0, enteredUsername, "TESTING");
+                        ReviewTable reviewTable = new ReviewTable(0, enteredUsername, "");
                         reviewDao.insertReview(reviewTable);
 
                         Toast.makeText(ActivityRegister.this, "Username added", Toast.LENGTH_SHORT).show();
