@@ -1,9 +1,11 @@
 package com.example.mapwithmarker;
 
 
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 
 import androidx.annotation.Nullable;
@@ -82,11 +84,20 @@ public class About extends AppCompatActivity {
         ((TextView)(findViewById(R.id.AboutTittle_TextView))).setText("Welcome to " + city);
 
 
+        if (reviewDao.getReviewByUsername(username).length() != 0) {
+            Log.d("tests", reviewDao.getReviewByUsername(username));
+            saveButton.setText("EDIT");
+        } else {
+            saveButton.setText("ADD");
+        }
 
         List<ReviewTable> users = reviewDao.getReview();
         StringBuilder s = new StringBuilder();
-        for (ReviewTable r: users){
-            s.append(r.getUsername().toUpperCase()).append(" : ").append(r.getReview()).append("\n");
+        for (ReviewTable r: users) {
+            String comment = r.getReview();
+            if (!comment.equals("")) {
+                s.append(r.getUsername().toUpperCase()).append(" : ").append(r.getReview()).append("\n");
+            }
         }
         Log.d("StringBuilder",s.toString());
         commentSection.setText(s.toString());
@@ -115,9 +126,9 @@ public class About extends AppCompatActivity {
             sub3 = random.nextInt(5);
         }
 
-        ((TextView)findViewById(R.id.sub1_tag)).setText(" " + subjects[sub1] + " ");
-        ((TextView)findViewById(R.id.sub2_tag)).setText(" " + subjects[sub2] + " ");
-        ((TextView)findViewById(R.id.sub3_tag)).setText(" " + subjects[sub3] + " ");
+        ((TextView)findViewById(R.id.sub1_tag)).setText(" " + subjects[sub1].toUpperCase() + " ");
+        ((TextView)findViewById(R.id.sub2_tag)).setText(" " + subjects[sub2].toUpperCase() + " ");
+        ((TextView)findViewById(R.id.sub3_tag)).setText(" " + subjects[sub3].toUpperCase() + " ");
 
         if (!imageDao.is_taken(city)) {
             // Make API calls to search for photos based on keywords and load them into ImageViews
@@ -152,6 +163,19 @@ public class About extends AppCompatActivity {
                     }
                 }
                 commentSection.setText(s.toString());
+
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                if (imm != null) {
+                    imm.hideSoftInputFromWindow(findViewById(R.id.saveButton).getWindowToken(), 0);
+                }
+
+                editText.setText("");
+
+                if (reviewDao.getReviewByUsername(username).length() != 0) {
+                    saveButton.setText("EDIT");
+                } else {
+                    saveButton.setText("ADD");
+                }
             }
         });
     }

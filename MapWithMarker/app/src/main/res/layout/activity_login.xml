@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:textCursorDrawable="@drawable/cursor"
     android:padding="16dp"
     android:background="@drawable/login"
     android:gravity="center">
@@ -14,6 +15,7 @@
         android:foregroundTint="#ffffff"
         android:backgroundTint="#ffffff"
         android:layout_marginTop="16dp"
+        android:textCursorDrawable="@drawable/cursor"
         android:layout_height="wrap_content"
         android:textColorHint="#ffffff"
         android:textColor="#ffffff"/>
@@ -25,6 +27,7 @@
         android:hint="@string/password"
         android:layout_marginTop="16dp"
         android:layout_height="wrap_content"
+        android:textCursorDrawable="@drawable/cursor"
         android:backgroundTint="#ffffff"
         android:textColorHint="#ffffff"
         android:textColor="#ffffff"/>

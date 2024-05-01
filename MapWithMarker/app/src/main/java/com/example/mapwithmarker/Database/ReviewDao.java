@@ -24,6 +24,6 @@ public interface ReviewDao {
     @Query("SELECT * FROM ReviewTable")
     List<ReviewTable> getReview();
 
-    @Query("SELECT username FROM ReviewTable WHERE username=:username")
+    @Query("SELECT review FROM ReviewTable WHERE username=:username")
     String getReviewByUsername(String username);
 }

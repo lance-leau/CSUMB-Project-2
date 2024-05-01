@@ -12,6 +12,7 @@
     <EditText
         android:id="@+id/etUsername"
         android:textColor="#ffffff"
+        android:textCursorDrawable="@drawable/cursor"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:backgroundTint="#ffffff"
@@ -23,6 +24,7 @@
         android:id="@+id/etPassword"
         android:inputType="textPassword"
         android:backgroundTint="#ffffff"
+        android:textCursorDrawable="@drawable/cursor"
         android:textColor="#ffffff"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -35,6 +37,7 @@
         android:id="@+id/etRePassword"
         android:inputType="textPassword"
         android:backgroundTint="#ffffff"
+        android:textCursorDrawable="@drawable/cursor"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"

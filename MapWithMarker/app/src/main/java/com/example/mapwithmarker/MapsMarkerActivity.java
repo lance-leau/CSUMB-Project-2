@@ -135,6 +135,7 @@ public class MapsMarkerActivity extends AppCompatActivity
                 // center on new marker
                 GM.moveCamera(CameraUpdateFactory.newLatLng(coordinates));
 
+                // close the keyboard
                 InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                 if (imm != null) {
                     imm.hideSoftInputFromWindow(binding.AddNewDestinationButton.getWindowToken(), 0);
@@ -149,7 +150,8 @@ public class MapsMarkerActivity extends AppCompatActivity
                 String parsedSteps = StringParser.parseDestinations(steps);
                 if (!parsedSteps.equals("0")) {
                     if (s.equals("0")) {
-                        userDao.updateCities(username, "1," + parsedSteps);
+                        if (steps.getSteps().size() != 0) userDao.updateCities(username, "1," + parsedSteps);
+                        else userDao.updateCities(username, "0");
                     } else {
                         String[] parts = s.split(",", 2);
                         String tripNum = parts[0];

@@ -75,6 +75,7 @@
                         android:layout_marginEnd="10dp"
                         android:inputType="textShortMessage"
                         android:autofillHints="username"
+                        android:textCursorDrawable="@drawable/cursor"
                         android:backgroundTint="#000000"/>
 
                     <Button
