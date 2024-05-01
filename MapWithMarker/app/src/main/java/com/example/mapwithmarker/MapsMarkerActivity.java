@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -133,6 +134,11 @@ public class MapsMarkerActivity extends AppCompatActivity
 
                 // center on new marker
                 GM.moveCamera(CameraUpdateFactory.newLatLng(coordinates));
+
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                if (imm != null) {
+                    imm.hideSoftInputFromWindow(binding.AddNewDestinationButton.getWindowToken(), 0);
+                }
             }
         });
 
