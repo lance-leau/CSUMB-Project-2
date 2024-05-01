@@ -25,6 +25,7 @@ import java.util.ArrayList;
 public class Landing extends AppCompatActivity {
 
     Button signOut, btnAdmin, plusButton, btnLogoSettings, btnSettings;
+    View dropdown;
 
     String username;
     MyDatabase myDb;
@@ -46,6 +47,7 @@ public class Landing extends AppCompatActivity {
         plusButton = findViewById(R.id.plusButton);
         btnSettings = findViewById(R.id.settings);
         btnLogoSettings = findViewById(R.id.LogoSettings);
+        dropdown = findViewById(R.id.dropDownMenue_view);
 
         myDb = Room.databaseBuilder(this, MyDatabase.class, "usertable").allowMainThreadQueries()
                 .fallbackToDestructiveMigration().build();
@@ -60,6 +62,7 @@ public class Landing extends AppCompatActivity {
 
         btnSettings.setVisibility(View.GONE);
         signOut.setVisibility(View.GONE);
+        dropdown.setVisibility(View.GONE);
         btnAdmin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -91,11 +94,12 @@ public class Landing extends AppCompatActivity {
                 if (btnSettings.getVisibility() == View.GONE) {
                     btnSettings.setVisibility(View.VISIBLE);
                     signOut.setVisibility(View.VISIBLE);
+                    dropdown.setVisibility(View.VISIBLE);
                 }
                 else {
                     btnSettings.setVisibility(View.GONE);
                     signOut.setVisibility(View.GONE);
-
+                    dropdown.setVisibility(View.GONE);
                 }
 
             }
