@@ -2,25 +2,11 @@ package com.example.mapwithmarker.Utils;
 import com.google.android.gms.maps.model.LatLng;
 
 public class DirectionsEstimation {
-
-    // Average travel speed by car in kilometers per hour
-    private static final double AVERAGE_CAR_SPEED_KPH = 60.0;
-
-    // Method to estimate travel time between two LatLng points
     public static String estimateTravelTime(LatLng origin, LatLng destination) {
-        // Get the distance between the two points in kilometers
         double distance = calculateDistance(origin.latitude, origin.longitude, destination.latitude, destination.longitude);
-
-        // Calculate travel time in hours
-        double travelTimeHours = distance / AVERAGE_CAR_SPEED_KPH;
-
-        // Convert travel time from hours to minutes and round to nearest integer
-        int travelTimeMinutes = (int) Math.round(travelTimeHours * 60);
-
-        // Return travel time in the format HH:MM
-        return String.format("%02dh%02d", travelTimeMinutes / 60, travelTimeMinutes % 60);
+        double travelTimeHours = 60 * distance / 80;
+        return String.format("%02dh%02d", (int)(travelTimeHours / 60), (int)(travelTimeHours % 60));
     }
-
 
     private static double calculateDistance(double lat1, double lon1, double lat2, double lon2) {
         final int R = 6371;
