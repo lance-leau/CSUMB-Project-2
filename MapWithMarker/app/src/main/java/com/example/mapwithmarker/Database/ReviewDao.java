@@ -26,4 +26,7 @@ public interface ReviewDao {
 
     @Query("SELECT review FROM ReviewTable WHERE username=:username")
     String getReviewByUsername(String username);
+
+    @Query("Delete from REVIEWTABLE Where username = :username")
+    void deleteReview(String username);
 }

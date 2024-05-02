@@ -18,6 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.mapwithmarker.Database.MyDatabase;
+import com.example.mapwithmarker.Database.ReviewDao;
 import com.example.mapwithmarker.Database.UserDao;
 import com.example.mapwithmarker.Database.UserTable;
 
@@ -29,6 +30,8 @@ public class ActivityAdmin extends AppCompatActivity {
     private TableLayout userListLayout;
     private MyDatabase myDb;
     private UserDao userDao;
+
+    ReviewDao reviewDao;
     private Button btnBack;
 
     @Override
@@ -46,6 +49,7 @@ public class ActivityAdmin extends AppCompatActivity {
                 .build();
 
         userDao = myDb.getDao();
+        reviewDao = myDb.getReviewDao();
         userListLayout.removeAllViews();
 
         showAllUsers();
@@ -185,6 +189,7 @@ public class ActivityAdmin extends AppCompatActivity {
     private void deleteUser(String username) {
         if (!userDao.isAdminUser(username)) {
             userDao.deleteUser(username);
+            reviewDao.deleteReview(username);
             refreshUserList();
         } else {
             Toast.makeText(ActivityAdmin.this, "An admin account can't be deleted ", Toast.LENGTH_LONG).show();
