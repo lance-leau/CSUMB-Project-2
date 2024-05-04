@@ -6,7 +6,7 @@ import android.util.Log;
 import java.util.ArrayList;
 
 public class StringParser {
-    public static String pascalCase(String input) {
+    public static String addressParser(String input) {
         String[] words = input.split(" ");
 
         StringBuilder result = new StringBuilder();
@@ -30,12 +30,27 @@ public class StringParser {
     }
 
     public static ArrayList<RoadTripView> parseDBtoRoadTrips(String s, Context context) {
+        ArrayList<RoadTripView> rt = new ArrayList<RoadTripView>();
+
         ArrayList<Integer> sizes = new ArrayList<>();
         ArrayList<String> roadTrips = new ArrayList<>();
         ArrayList<String> roadTripSteps = new ArrayList<>();
 
+        parseDBtoRoadTrips(s, sizes, roadTrips, roadTripSteps);
+
+        for (int i = 0; i < roadTrips.size(); i++) {
+            RoadTripView roadTripView = new RoadTripView(context, roadTripSteps.get(i));
+            roadTripView.setTittle(roadTrips.get(i));
+            roadTripView.setStepCount(sizes.get(i));
+            rt.add(roadTripView);
+        }
+
+        return rt;
+    }
+
+    public static void parseDBtoRoadTrips(String s, ArrayList<Integer> sizes, ArrayList<String> roadTrips, ArrayList<String> roadTripSteps) {
         if (s.equals("0")) {
-            return new ArrayList<RoadTripView>();
+            return;
         }
 
         String[] parts = s.split(",");
@@ -60,17 +75,6 @@ public class StringParser {
             roadTrips.add(tripStops.toString());
             roadTripSteps.add(tripSteps.toString());
         }
-
-        ArrayList<RoadTripView> rt = new ArrayList<RoadTripView>();
-
-        for (int i = 0; i < roadTrips.size(); i++) {
-            RoadTripView roadTripView = new RoadTripView(context, roadTripSteps.get(i));
-            roadTripView.setTittle(roadTrips.get(i));
-            roadTripView.setStepCount(sizes.get(i));
-            rt.add(roadTripView);
-        }
-
-        return rt;
     }
 
     public static String RoadTripArrToStr(ArrayList<RoadTripView> arr) {

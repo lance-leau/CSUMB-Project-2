@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -103,7 +102,7 @@ public class MapsMarkerActivity extends AppCompatActivity
             @Override
             public void onClick(View v) {
                 // get the address
-                String address = StringParser.pascalCase(binding.AddNewDestinationEditText.getText().toString());
+                String address = StringParser.addressParser(binding.AddNewDestinationEditText.getText().toString());
 
                 // create the new marker
                 LatLng coordinates = CityCoordinatesUtils.getCoordinates(MapsMarkerActivity.this, address);

@@ -19,6 +19,8 @@ import com.example.mapwithmarker.Utils.RoadTripView;
 import com.example.mapwithmarker.Utils.StringParser;
 import com.example.mapwithmarker.databinding.RoadTripViewBinding;
 
+import org.junit.Test;
+
 import java.util.ArrayList;
 
 
