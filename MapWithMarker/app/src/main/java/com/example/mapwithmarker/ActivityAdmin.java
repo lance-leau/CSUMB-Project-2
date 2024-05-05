@@ -169,7 +169,9 @@ public class ActivityAdmin extends AppCompatActivity {
                 public void onClick(DialogInterface dialog, int which) {
                     // Set the user as admin and update the database
                     user.setAdmin(true);
+                    Log.d("user", user.getCities());
                     userDao.updateUser(user);
+                    Log.d("user", user.getCities());
                     // Set the checkbox to checked
                     adminCheckBox.setChecked(true);
                     // Refresh the user list
@@ -180,6 +182,7 @@ public class ActivityAdmin extends AppCompatActivity {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     adminCheckBox.setChecked(false);
+                    Log.d("user", user.getCities());
                     dialog.dismiss(); // Dismiss the dialog
                 }
             });

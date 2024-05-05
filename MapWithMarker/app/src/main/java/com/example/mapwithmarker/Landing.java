@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.example.mapwithmarker.Database.MyDatabase;
 import com.example.mapwithmarker.Database.UserDao;
+import com.example.mapwithmarker.Database.UserTable;
 import com.example.mapwithmarker.Utils.RoadTripView;
 import com.example.mapwithmarker.Utils.StringParser;
 import com.example.mapwithmarker.databinding.RoadTripViewBinding;
@@ -32,6 +33,8 @@ public class Landing extends AppCompatActivity {
     String username;
     MyDatabase myDb;
     UserDao userDao;
+
+    UserTable user;
     boolean IS_ADMIN = false;
     ArrayList<RoadTripView> roadTripViews;
 
@@ -133,6 +136,7 @@ public class Landing extends AppCompatActivity {
         intent.putExtra("TRIP", roadTripView.getTrip());
         intent.putExtra("USERNAME", username);
         userDao.updateCities(username, StringParser.RoadTripArrToStr(roadTripViews, roadTripView));
+
         startActivity(intent);
     }
 }

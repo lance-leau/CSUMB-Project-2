@@ -18,6 +18,7 @@ import androidx.room.Room;
 
 import com.example.mapwithmarker.Database.MyDatabase;
 import com.example.mapwithmarker.Database.UserDao;
+import com.example.mapwithmarker.Database.UserTable;
 import com.example.mapwithmarker.Utils.Animations;
 import com.example.mapwithmarker.Utils.CityCoordinatesUtils;
 import com.example.mapwithmarker.Utils.DirectionsEstimation;
@@ -54,6 +55,8 @@ public class MapsMarkerActivity extends AppCompatActivity
 
     MyDatabase myDb;
     UserDao userDao;
+
+    UserTable user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -157,6 +160,7 @@ public class MapsMarkerActivity extends AppCompatActivity
                         String restOfString = parts[1];
                         String parsedString = (Integer.parseInt(tripNum) + 1) + "," + restOfString + "," + parsedSteps;
                         userDao.updateCities(username, parsedString);
+
                     }
                 }
                 Intent intent = new Intent(MapsMarkerActivity.this, Landing.class);
