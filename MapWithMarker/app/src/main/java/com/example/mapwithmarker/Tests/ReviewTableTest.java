@@ -1,6 +1,8 @@
-package com.example.mapwithmarker.Database;
+package com.example.mapwithmarker.Tests;
 
 import static org.junit.jupiter.api.Assertions.*;
+
+import com.example.mapwithmarker.Database.ReviewTable;
 
 import org.junit.jupiter.api.Test;
 
