@@ -73,7 +73,7 @@ public class ActivityLogin  extends AppCompatActivity {
                     startActivity(intent);
                 }
                 else {
-                    Toast.makeText(ActivityLogin.this, "Invalid Name or password", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ActivityLogin.this, "Invalid Name or Password", Toast.LENGTH_SHORT).show();
                 }
 
             }

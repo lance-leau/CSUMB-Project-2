@@ -65,7 +65,7 @@ public class ActivityRegister extends AppCompatActivity {
                     Toast.makeText(ActivityRegister.this, "Username already exists", Toast.LENGTH_SHORT).show();
                 } else {
                     if(!etPwd.getText().toString().equals(etRepwd.getText().toString())){
-                        Toast.makeText(ActivityRegister.this, "The password do not match", Toast.LENGTH_SHORT).show();;
+                        Toast.makeText(ActivityRegister.this, "The passwords does not match", Toast.LENGTH_SHORT).show();;
                     }
                     else {
                         UserTable userTable = new UserTable(0, enteredUsername, etPwd.getText().toString(), false,"0");
